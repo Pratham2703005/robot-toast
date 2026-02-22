@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));  /* ← tells Tailwind v4 dark means .dark class */
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-white text-gray-900 dark:bg-black dark:text-white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-600;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  @apply transition-colors;
+}
+
+input[type="checkbox"] {
+  @apply h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500;
+  @apply dark:border-gray-700 dark:bg-gray-900 dark:checked:bg-purple-600;
+}
+
+/* Button styling */
+button {
+  @apply transition-all;
+}
+
