@@ -19,9 +19,11 @@ export const ROBOT_OPTIONS: readonly { name: string; value: string; path?: strin
   { name: 'Validation',       value: 'validation' },
   { name: 'Validation 2',     value: 'validation2' },
   { name: 'Bird (SVG)',       value: 'dxd/bird.svg',      path: 'your-project/public/dxd/bird.svg' },
-  { name: 'Bird (JPG)',       value: 'dxd/bird.jpg',      path: 'your-project/public/dxd/bird.jpg' },
-  { name: 'Bird (GIF)',       value: 'dxd/bird.gif',      path: 'your-project/public/dxd/bird.gif' },
-  { name: 'Img1 (ICO)',       value: 'dxd/img1.ico',      path: 'your-project/public/dxd/img1.ico' },
+  { name: 'Billy2',       value: 'dxd/billy2.png',     path: 'your-project/public/dxd/billy2.png' },
+  { name: 'Jinwoo',       value: 'dxd/jinwoo.png',     path: 'your-project/public/dxd/jinwoo.png' },
+  { name: 'Pickachu',       value: 'dxd/pickachu.svg',     path: 'your-project/public/dxd/pickachu.svg' },
+  { name: 'Sharingan',       value: 'dxd/Sharingan.png',      path: 'your-project/public/dxd/Sharingan.png' },
+  { name: 'Deadpool',       value: 'dxd/deadpool.gif',      path: 'your-project/public/dxd/deadpool.gif' },
 ];
 
 export const ROBOTS = ROBOT_OPTIONS.map(o => o.value);

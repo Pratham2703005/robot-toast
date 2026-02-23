@@ -39,7 +39,7 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
 
           {/* Dropdown Menu */}
           {isOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-64 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-56 overflow-y-auto">
               {ROBOT_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
