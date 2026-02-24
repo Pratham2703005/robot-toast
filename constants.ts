@@ -22,7 +22,7 @@ export const ROBOT_OPTIONS: readonly { name: string; value: string; path?: strin
   { name: 'Billy2',       value: 'dxd/billy2.png',     path: 'your-project/public/dxd/billy2.png' },
   { name: 'Jinwoo',       value: 'dxd/jinwoo.png',     path: 'your-project/public/dxd/jinwoo.png' },
   { name: 'Pickachu',       value: 'dxd/pickachu.svg',     path: 'your-project/public/dxd/pickachu.svg' },
-  { name: 'Sharingan',       value: 'dxd/Sharingan.png',      path: 'your-project/public/dxd/Sharingan.png' },
+  { name: 'Sharingan',       value: 'dxd/sharingan.png',      path: 'your-project/public/dxd/sharingan.png' },
   { name: 'Deadpool',       value: 'dxd/deadpool.gif',      path: 'your-project/public/dxd/deadpool.gif' },
 ];
 
