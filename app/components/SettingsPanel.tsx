@@ -28,7 +28,7 @@ export function SettingsPanel({ state, set }: Props) {
 
       {/* ── Appearance ───────────────────────────────────────────────────── */}
       <AccordionItem label="Appearance" defaultOpen>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field label="Type">
             <Select
               value={state.type}
@@ -82,7 +82,7 @@ export function SettingsPanel({ state, set }: Props) {
 
       {/* ── Timing ───────────────────────────────────────────────────────── */}
       <AccordionItem label="Timing">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field label="Auto Close (ms)" hint="0 = stays open">
             <NumberInput
               value={state.autoClose}

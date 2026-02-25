@@ -1,33 +1,33 @@
 export default function Installation() {
   return (
-    <div className="px-8 py-12 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+    <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-12 max-w-4xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8">
         Installation
       </h1>
 
       {/* NPM Installation */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           NPM Installation
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Install robot-toast using npm:
         </p>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-6 overflow-x-auto">
-          <pre className="font-mono text-sm">npm install robot-toast</pre>
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto">
+          <pre className="font-mono text-xs sm:text-sm">npm install robot-toast</pre>
         </div>
       </div>
 
       {/* Basic Usage */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Basic Usage
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Import and use robot-toast in your application:
         </p>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-6 overflow-x-auto">
-          <pre className="font-mono text-sm">
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto">
+          <pre className="font-mono text-xs sm:text-sm">
 {`import { toast } from 'robot-toast';
 
 // Show a simple toast
@@ -41,14 +41,14 @@ toast({
       </div>
 
       {/* Position Options */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Position Options
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Available positions for your toasts:
         </p>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {[
             'top-right',
             'top-left',
@@ -68,14 +68,14 @@ toast({
       </div>
 
       {/* Robot Variants */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Available Robot Variants
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Choose from 16 adorable robot characters:
         </p>
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
           {[
             'angry.svg',
             'angry2.svg',
@@ -106,11 +106,11 @@ toast({
       </div>
 
       {/* Toast Types */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Toast Types
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Different toast types for different messages:
         </p>
         <div className="space-y-3">
@@ -140,14 +140,14 @@ toast({
       </div>
 
       {/* Themes */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Themes
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Three beautiful themes to match your design:
         </p>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <ThemeCard
             name="Light"
             description="Clean white background with subtle shadows"
@@ -167,8 +167,8 @@ toast({
       </div>
 
       {/* Config Options */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Configuration Options
         </h2>
         <div className="space-y-3">
@@ -187,7 +187,7 @@ toast({
               key={key}
               className="rounded-lg border border-gray-200 dark:border-gray-800 p-4 bg-gray-50 dark:bg-gray-900"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
                 <div className="flex-1">
                   <div className="font-mono font-semibold text-gray-900 dark:text-white">
                     {key}
@@ -196,7 +196,7 @@ toast({
                     {desc}
                   </div>
                 </div>
-                <div className="text-right text-sm">
+                <div className="text-left sm:text-right text-sm">
                   <div className="text-gray-600 dark:text-gray-400">{value}</div>
                   <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                     default: {defaultValue}
@@ -209,12 +209,12 @@ toast({
       </div>
 
       {/* Full Example */}
-      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-8 mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-8 sm:mb-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Complete Example
         </h2>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-6 overflow-x-auto mt-4">
-          <pre className="font-mono text-sm">
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto mt-3 sm:mt-4">
+          <pre className="font-mono text-xs sm:text-sm">
 {`import { toast } from 'robot-toast';
 
 // Success notification with all options

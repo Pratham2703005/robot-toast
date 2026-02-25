@@ -56,30 +56,30 @@ const highlighted = escaped
     `<span style="color:${colors.function}">$1</span>`);
 
   return (
-    <div className="sticky top-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xl">
+    <div className="lg:sticky lg:top-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xl">
 
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-2.5 sm:py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* macOS traffic lights */}
           {['#ff5f57','#febc2e','#28c840'].map(c => (
-            <span key={c} className="w-3 h-3 rounded-full" style={{ background: c }} />
+            <span key={c} className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full" style={{ background: c }} />
           ))}
         </div>
-        <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono tracking-wider">playground.ts</span>
+        <span className="text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 font-mono tracking-wider hidden xs:inline">playground.ts</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="text-[11px] px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-150 font-mono"
+          className="text-[11px] px-2 sm:px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-150 font-mono"
         >
           {copied ? '✓ copied' : 'copy'}
         </button>
       </div>
 
       {/* Code */}
-      <div className="p-5 overflow-x-auto max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-700 bg-white dark:bg-zinc-950">
+      <div className="p-3 sm:p-5 overflow-x-auto max-h-72 sm:max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-700 bg-white dark:bg-zinc-950">
         <pre
-          className="font-mono text-[12.5px] leading-relaxed text-zinc-900 dark:text-zinc-300 whitespace-pre"
+          className="font-mono text-[11px] sm:text-[12.5px] leading-relaxed text-zinc-900 dark:text-zinc-300 whitespace-pre"
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       </div>

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { Sidebar } from "./components/Sidebar";
-import { ThemeToggle } from "./components/ThemeToggle";
+import { Shell } from "./components/Shell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,22 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900 dark:bg-black dark:text-white transition-colors`}>
         <ThemeProvider>
-          <div className="flex">
-            <Sidebar />
-            <div className="flex-1 ml-64">
-              <header className="sticky top-0 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-black/95 px-6 py-4 flex items-center justify-between z-40">
-                <h1 className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Documentation
-                </h1>
-                <ThemeToggle />
-              </header>
-              <main className="min-h-screen bg-white dark:bg-black">
-                {children}
-              </main>
-            </div>
-          </div>
+          <Shell>
+            {children}
+          </Shell>
         </ThemeProvider>
       </body>
     </html>

@@ -1,26 +1,26 @@
 export default function Home() {
   return (
-    <div className="px-8 py-12 max-w-4xl mx-auto">
+    <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-12 max-w-4xl mx-auto">
       {/* Hero Section */}
-      <div className="mb-16">
-        <div className="text-6xl mb-4">🤖</div>
-        <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="mb-10 sm:mb-16">
+        <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🤖</div>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Robot Toast
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl">
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 max-w-2xl">
           A delightful, interactive toast notification library with adorable robot characters. 
           Perfect for adding personality to your notifications while maintaining a professional look.
         </p>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <a
             href="/installation"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all text-center"
           >
             Get Started →
           </a>
           <a
             href="/playground"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors text-center"
           >
             Try Playground
           </a>
@@ -28,7 +28,7 @@ export default function Home() {
       </div>
 
       {/* Features Grid */}
-      <div className="grid md:grid-cols-2 gap-8 mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-10 sm:mb-16">
         <FeatureCard
           icon="✨"
           title="Animated Characters"
@@ -62,11 +62,11 @@ export default function Home() {
       </div>
 
       {/* Features List */}
-      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-8 mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-10 sm:mb-16">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
           Key Features
         </h2>
-        <ul className="space-y-4 text-gray-700 dark:text-gray-300">
+        <ul className="space-y-3 sm:space-y-4 text-gray-700 dark:text-gray-300">
           <li className="flex gap-4">
             <span className="text-2xl">🤖</span>
             <div>
@@ -125,7 +125,7 @@ export default function Home() {
       </div>
 
       {/* Quick Example */}
-      <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-6 overflow-x-auto mb-16">
+      <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto mb-10 sm:mb-16">
         <h3 className="text-lg font-bold mb-4">Quick Start Example</h3>
         <pre className="font-mono text-sm">
 {`import { toast } from 'robot-toast';
@@ -175,9 +175,9 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-800 p-6 hover:shadow-lg transition-shadow">
-      <div className="text-4xl mb-3">{icon}</div>
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6 hover:shadow-lg transition-shadow">
+      <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{icon}</div>
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
         {title}
       </h3>
       <p className="text-gray-600 dark:text-gray-400">{description}</p>
