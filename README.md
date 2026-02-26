@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🚀 How to Contribute (Step-by-Step)
 
-## Getting Started
+### 1️⃣ Fork the Repository
 
-First, run the development server:
+Click the **Fork** button on GitHub (top right).
+This creates your own copy of the repo.
+
+### 2️⃣ Clone Your Fork Locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Pratham2703005/robot-toast.git
+```
+3️⃣ Create a New Branch
+
+Always create a new branch for your changes.
+```bash
+git checkout -b fix/short-description-of-change
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Example:
+```bash
+git checkout -b fix/sticky-buttons-ui
+```
+4️⃣ Install Dependencies
+```bash
+npm install
+```
+5️⃣ Run the Project Locally
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make your changes and test them properly.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+6️⃣ Commit Your Changes
 
-## Learn More
+Write clean and descriptive commit messages.
+```bash
+git add .
+git commit -m "fix(playground): make show and clear buttons sticky for better UX"
+```
 
-To learn more about Next.js, take a look at the following resources:
+7️⃣ Push to Your Fork
+```bash
+git push origin fix/short-description-of-change
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+8️⃣ Open a Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Go to your fork on GitHub and click:
+- Compare & Pull Request
+- In the PR description:
+    - Explain what you changed
+    - Reference the issue (if any)
 
-## Deploy on Vercel
+📌 Contribution Guidelines
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Keep changes focused and minimal
+- Follow existing code style
+- Test before submitting PR
+- Do not commit unnecessary files
+- Avoid large unrelated changes in a single PR
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🛠 Reporting Issues
+- If you find a bug or UX improvement:
+    - Go to the Issues tab
+    - Click New Issue
+    - Clearly describe the problem or improvement
+
+🙌 After Your PR I will:
+- Review your code
+- Suggest changes (if needed)
+- Merge when approved
+- Once merged, your contribution becomes part of the project history 🎉
+
+Thanks for helping improve robot-toast Playground!
+Let’s build something creative 

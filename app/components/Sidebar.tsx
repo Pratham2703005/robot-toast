@@ -81,7 +81,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
 
         <div className="absolute bottom-6 left-6 right-6">
           <a
-            href="https://github.com"
+            href="https://github.com/Pratham2703005/robot-toast"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
