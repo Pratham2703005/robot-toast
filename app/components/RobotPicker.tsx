@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ROBOT_OPTIONS } from "@/constants";
 import { Field } from "./Field";
 
@@ -11,18 +11,53 @@ interface RobotPickerProps {
 
 export function RobotPicker({ value, onChange }: RobotPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerId = useId();
+  const listboxId = useId();
 
   const selected =
     ROBOT_OPTIONS.find((o) => o.value === value) || ROBOT_OPTIONS[0];
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
     <div className="space-y-2">
       <Field label="Robot Variant">
-        <div className="relative">
+        <div ref={rootRef} className="relative">
           {/* Dropdown Button */}
           <button
+            id={triggerId}
+            ref={triggerRef}
             type="button"
             onClick={() => setIsOpen(!isOpen)}
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
             className="w-full px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100 flex items-center justify-between hover:border-zinc-400 dark:hover:border-zinc-600"
           >
             <span className="flex-1 text-left">
@@ -50,14 +85,22 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
 
           {/* Dropdown Menu */}
           {isOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-56 overflow-y-auto">
+            <div
+              id={listboxId}
+              role="listbox"
+              aria-labelledby={triggerId}
+              className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-56 overflow-y-auto"
+            >
               {ROBOT_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
+                  role="option"
+                  aria-selected={opt.value === value}
                   onClick={() => {
                     onChange(opt.value);
                     setIsOpen(false);
+                    triggerRef.current?.focus();
                   }}
                   className={`w-full px-3 py-2 text-sm text-left flex items-center justify-between transition-colors ${
                     opt.value === value
