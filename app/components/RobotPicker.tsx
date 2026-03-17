@@ -54,7 +54,7 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
             id={triggerId}
             ref={triggerRef}
             type="button"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((prev) => !prev)}
             aria-haspopup="listbox"
             aria-expanded={isOpen}
             aria-controls={listboxId}
