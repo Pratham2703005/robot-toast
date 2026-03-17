@@ -87,7 +87,7 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
           {isOpen && (
             <div
               id={listboxId}
-              role="listbox"
+              role="group"
               aria-labelledby={triggerId}
               className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-56 overflow-y-auto"
             >
@@ -95,8 +95,7 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
                 <button
                   key={opt.value}
                   type="button"
-                  role="option"
-                  aria-selected={opt.value === value}
+                  aria-pressed={opt.value === value}
                   onClick={() => {
                     onChange(opt.value);
                     setIsOpen(false);
