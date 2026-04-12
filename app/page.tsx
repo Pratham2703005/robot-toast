@@ -1,4 +1,25 @@
+import CopyButton from "./components/CopyButton";
+
 export default function Home() {
+  const code1 = `import { toast } from 'robot-toast';`;
+
+  const code2 = `// Show a basic toast
+toast({
+  message: 'Welcome back!',
+  position: 'top-right',
+  robotVariant: 'wave.svg',
+  duration: 3000
+});`;
+
+  const code3 = `// Show with options
+toast({
+  message: 'Operation complete!',
+  type: 'success',
+  theme: 'light',
+  position: 'bottom-right',
+  draggable: true
+});`;
+
   return (
     <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-12 max-w-4xl mx-auto">
       {/* Hero Section */}
@@ -8,7 +29,7 @@ export default function Home() {
           Robot Toast
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 max-w-2xl">
-          A delightful, interactive toast notification library with adorable robot characters. 
+          A delightful, interactive toast notification library with adorable robot characters.
           Perfect for adding personality to your notifications while maintaining a professional look.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -127,25 +148,17 @@ export default function Home() {
       {/* Quick Example */}
       <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto mb-10 sm:mb-16">
         <h3 className="text-lg font-bold mb-4">Quick Start Example</h3>
-        <pre className="font-mono text-sm">
-{`import { toast } from 'robot-toast';
-
-// Show a basic toast
-toast({
-  message: 'Welcome back!',
-  position: 'top-right',
-  robotVariant: 'wave.svg',
-  duration: 3000
-});
-
-// Show with options
-toast({
-  message: 'Operation complete!',
-  type: 'success',
-  theme: 'light',
-  position: 'bottom-right',
-  draggable: true
-});`}
+        <pre className="font-mono text-sm px-2 py-1 flex justify-between items-center rounded hover:bg-gray-800">
+          {code1}
+          <CopyButton text={code1} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
+        </pre>
+        <pre className="font-mono text-sm px-2 py-2 my-1 flex justify-between items-start rounded hover:bg-gray-800">
+          {code2}
+          <CopyButton text={code2} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
+        </pre>
+        <pre className="font-mono text-sm px-2 py-2 flex justify-between items-start rounded hover:bg-gray-800">
+          {code3}
+          <CopyButton text={code3} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
         </pre>
       </div>
 

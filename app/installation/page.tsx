@@ -1,4 +1,28 @@
+import CopyButton from "../components/CopyButton";
+
 export default function Installation() {
+  const npmCommand = 'npm install robot-toast';
+  const importStatement = `import { toast } from 'robot-toast';`;
+  const toastSnippet = `// Show a simple toast
+toast({
+  message: 'Hello, World!',
+  position: 'bottom-right',
+  robotVariant: 'wave.svg'
+});`;
+  const completeToastSnippet = `// Success notification with all options
+toast({
+  message: 'Profile updated successfully!',
+  position: 'bottom-right',
+  type: 'success',
+  theme: 'light',
+  robotVariant: 'success.svg',
+  autoClose: 4000,
+  draggable: true,
+  pauseOnHover: true,
+  hideProgressBar: false,
+  transition: 'slide'
+});`;
+
   return (
     <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-12 max-w-4xl mx-auto">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8">
@@ -13,8 +37,11 @@ export default function Installation() {
         <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Install robot-toast using npm:
         </p>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto">
-          <pre className="font-mono text-xs sm:text-sm">npm install robot-toast</pre>
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-3 sm:p-5 overflow-x-auto">
+          <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between hover:bg-gray-800 rounded">
+            {npmCommand}
+            <CopyButton text={npmCommand} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
+          </pre>
         </div>
       </div>
 
@@ -26,16 +53,14 @@ export default function Installation() {
         <p className="text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
           Import and use robot-toast in your application:
         </p>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto">
-          <pre className="font-mono text-xs sm:text-sm">
-{`import { toast } from 'robot-toast';
-
-// Show a simple toast
-toast({
-  message: 'Hello, World!',
-  position: 'bottom-right',
-  robotVariant: 'wave.svg'
-});`}
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 flex flex-col gap-3 rounded-lg p-4 sm:p-6 overflow-x-auto">
+          <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between items-center rounded hover:bg-gray-800">
+            {importStatement}
+            <CopyButton text={npmCommand} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
+          </pre>
+          <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between items-start rounded hover:bg-gray-800">
+            {toastSnippet}
+            <CopyButton text={npmCommand} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
           </pre>
         </div>
       </div>
@@ -213,23 +238,14 @@ toast({
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
           Complete Example
         </h2>
-        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto mt-3 sm:mt-4">
-          <pre className="font-mono text-xs sm:text-sm">
-{`import { toast } from 'robot-toast';
-
-// Success notification with all options
-toast({
-  message: 'Profile updated successfully!',
-  position: 'bottom-right',
-  type: 'success',
-  theme: 'light',
-  robotVariant: 'success.svg',
-  autoClose: 4000,
-  draggable: true,
-  pauseOnHover: true,
-  hideProgressBar: false,
-  transition: 'slide'
-});`}
+        <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 flex flex-col gap-3 rounded-lg p-4 sm:p-6 overflow-x-auto mt-3 sm:mt-4">
+          <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between items-center rounded hover:bg-gray-800">
+            {importStatement}
+            <CopyButton text={importStatement} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
+          </pre>
+          <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between items-start rounded hover:bg-gray-800">
+            {completeToastSnippet}
+            <CopyButton text={completeToastSnippet} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
           </pre>
         </div>
       </div>
