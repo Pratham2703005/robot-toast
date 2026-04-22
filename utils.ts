@@ -112,6 +112,18 @@ function generateCodeV2(state: PlaygroundState): string {
   if (transition !== 'bounce') lines.push(`  transition: "${transition}"`);
   if (limit !== '0') lines.push(`  limit: ${parseInt(limit, 10)}`);
 
+  // Inline `buttons` array is a v2-only feature. Emit in array order with
+  // placeholder handlers; user fills in their real onClick bodies.
+  const activeBtns = state.buttons.filter(b => b.label.trim().length > 0);
+  if (activeBtns.length > 0) {
+    const items = activeBtns.map(b => {
+      const parts = [`label: "${b.label}"`, `onClick: () => { /* your code */ }`];
+      if (b.className.trim()) parts.push(`className: "${b.className.trim()}"`);
+      return `    { ${parts.join(', ')} }`;
+    }).join(',\n');
+    lines.push(`  buttons: [\n${items}\n  ]`);
+  }
+
   return `${imports.join('\n')}\n\ntoast({\n${lines.join(',\n')}\n});`;
 }
 

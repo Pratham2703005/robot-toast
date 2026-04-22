@@ -72,6 +72,25 @@ toast.promise(fetch('/api/save'), {
 });
 // The promise's resolution/rejection passes through untouched —
 // `await toast.promise(...)` still yields the resolved value or throws.
+
+// Inline buttons (Undo / Retry / Cancel patterns)
+toast({
+  message: 'File deleted',
+  buttons: [
+    { label: 'Undo', onClick: () => restore() },
+  ],
+});
+toast({
+  message: 'Send this email to 1,200 people?',
+  buttons: [
+    { label: 'Cancel', onClick: () => abort() },
+    { label: 'Send',   onClick: () => send(), className: 'my-primary' },
+  ],
+});
+// Buttons render in array order. Each click fires its onClick then closes the
+// toast. Default style is a neutral outline; pass `className` on any button to
+// layer your own styling (e.g. filled CTA vs muted dismiss).
+// A callback that throws is logged and the toast still closes.
 ```
 
 ---
@@ -171,6 +190,13 @@ interface RobotToastOptions {
   limit?:            number;                       // default: 0 (unlimited). Excess is auto-queued
   newestOnTop?:      boolean;                      // default: false
 
+  // Inline buttons — rendered in array order
+  buttons?:          Array<{
+    label:     string;
+    onClick:   (e: MouseEvent) => void;
+    className?: string;   // appended to the button element for custom styling
+  }>;
+
   // Lifecycle callbacks
   onOpen?:           () => void;
   onClose?:          () => void;
@@ -227,6 +253,12 @@ toast({
    or auto-close expiry.
 
 ---
+
+## Responsive layout
+
+On viewports ≤ 600 px the toast shrinks slightly (tighter gutters, smaller
+robot, smaller font) but keeps its configured position preset. Drag still
+works everywhere — no breakpoint-based disable.
 
 ## Accessibility
 

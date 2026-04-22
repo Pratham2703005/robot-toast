@@ -23,6 +23,11 @@ export interface PlaygroundState {
   rtl:             boolean;
   newestOnTop:     boolean;
   transition:      string;
+
+  // Inline buttons (v2-only feature). Rendered in array order. Functions
+  // can't live in serializable state, so we store label + optional className
+  // and materialize onClick at runtime.
+  buttons: Array<{ label: string; className: string }>;
 }
 
 export interface AccordionItem {

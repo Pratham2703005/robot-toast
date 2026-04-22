@@ -52,6 +52,7 @@ const INITIAL: PlaygroundState = {
   rtl:             false,
   newestOnTop:     false,
   transition:      'bounce',
+  buttons:         [],
 };
 
 export function usePlayground() {
@@ -67,6 +68,20 @@ export function usePlayground() {
     // value into the form v2 actually accepts: built-in names become their
     // imported data URLs, 'none'/'' becomes undefined (v2's opt-in default).
     const runtimeVariant = toRuntimeVariantV2(state.robotVariant);
+
+    // Buttons are stored as label + className pairs since function callbacks
+    // can't live in serializable state. Materialize each one's onClick here so
+    // the playground visibly demonstrates the click path — firing a follow-up
+    // toast so you see the callback register.
+    const buttons = state.buttons.length
+      ? state.buttons
+          .filter(b => b.label.trim().length > 0)
+          .map(b => ({
+            label:     b.label,
+            className: b.className.trim() || undefined,
+            onClick:   () => toast.success(`${b.label} clicked`),
+          }))
+      : undefined;
 
     toast({
       message:         state.message,
@@ -86,6 +101,7 @@ export function usePlayground() {
       newestOnTop:     state.newestOnTop,
       transition:      state.transition as any,
       limit:           state.limit !== '0' ? parseInt(state.limit, 10) : undefined,
+      buttons,
     });
   }, [state]);
 
