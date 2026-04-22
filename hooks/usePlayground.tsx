@@ -70,16 +70,16 @@ export function usePlayground() {
     const runtimeVariant = toRuntimeVariantV2(state.robotVariant);
 
     // Buttons are stored as label + className pairs since function callbacks
-    // can't live in serializable state. Materialize each one's onClick here so
-    // the playground visibly demonstrates the click path — firing a follow-up
-    // toast so you see the callback register.
+    // can't live in serializable state. onClick is intentionally a no-op — the
+    // toast closes on click, which is visible feedback enough. In real usage
+    // the consumer writes their own onClick; the playground doesn't invent one.
     const buttons = state.buttons.length
       ? state.buttons
           .filter(b => b.label.trim().length > 0)
           .map(b => ({
             label:     b.label,
             className: b.className.trim() || undefined,
-            onClick:   () => toast.success(`${b.label} clicked`),
+            onClick:   () => {},
           }))
       : undefined;
 

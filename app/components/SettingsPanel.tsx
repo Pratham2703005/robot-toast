@@ -142,7 +142,8 @@ export function SettingsPanel({ state, set }: Props) {
 
           <p className="text-[11px] text-zinc-500 dark:text-zinc-400 pt-1">
             Clicking any button fires its <code className="font-mono">onClick</code> and closes the toast.
-            In the playground, each fires a follow-up toast so you can see the click register.
+            In your code you write the <code className="font-mono">onClick</code> body; here it&apos;s a no-op,
+            so you&apos;ll just see the toast dismiss.
           </p>
         </div>
       </AccordionItem>
