@@ -118,7 +118,10 @@ function generateCodeV2(state: PlaygroundState): string {
   if (activeBtns.length > 0) {
     const items = activeBtns.map(b => {
       const parts = [`label: "${b.label}"`, `onClick: () => { /* your code */ }`];
-      if (b.className.trim()) parts.push(`className: "${b.className.trim()}"`);
+      if (b.style?.trim()) {
+        const styleObj = parseCustomStyleForCode(b.style);
+        if (styleObj) parts.push(`style: ${styleObj}`);
+      }
       return `    { ${parts.join(', ')} }`;
     }).join(',\n');
     lines.push(`  buttons: [\n${items}\n  ]`);

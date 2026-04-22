@@ -25,9 +25,12 @@ export interface PlaygroundState {
   transition:      string;
 
   // Inline buttons (v2-only feature). Rendered in array order. Functions
-  // can't live in serializable state, so we store label + optional className
-  // and materialize onClick at runtime.
-  buttons: Array<{ label: string; className: string }>;
+  // can't live in serializable state, so we store label + optional inline
+  // style (raw CSS string) and materialize onClick at runtime. The library
+  // also supports a `className` prop for Tailwind / design-system tokens,
+  // but the playground only exposes `style` since that's what's discoverable
+  // without consulting external stylesheets.
+  buttons: Array<{ label: string; style: string }>;
 }
 
 export interface AccordionItem {

@@ -69,17 +69,18 @@ export function usePlayground() {
     // imported data URLs, 'none'/'' becomes undefined (v2's opt-in default).
     const runtimeVariant = toRuntimeVariantV2(state.robotVariant);
 
-    // Buttons are stored as label + className pairs since function callbacks
-    // can't live in serializable state. onClick is intentionally a no-op — the
-    // toast closes on click, which is visible feedback enough. In real usage
-    // the consumer writes their own onClick; the playground doesn't invent one.
+    // Buttons are stored as label + style strings since function callbacks
+    // can't live in serializable state. onClick is intentionally a no-op —
+    // the toast closes on click, which is visible feedback enough. The
+    // `style` string is parsed the same way as the toast-level customStyle
+    // (CSS-text → camelCase object) so both inputs share one mental model.
     const buttons = state.buttons.length
       ? state.buttons
           .filter(b => b.label.trim().length > 0)
           .map(b => ({
-            label:     b.label,
-            className: b.className.trim() || undefined,
-            onClick:   () => {},
+            label:   b.label,
+            style:   parseCustomStyle(b.style),
+            onClick: () => {},
           }))
       : undefined;
 

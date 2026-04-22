@@ -120,13 +120,13 @@ export function SettingsPanel({ state, set }: Props) {
                   placeholder="Undo"
                 />
               </Field>
-              <Field label="className (optional)" hint="Extra class to customize this button's style">
+              <Field label="Inline style (optional)" hint="Raw CSS, e.g. background: black; color: white">
                 <TextInput
-                  value={btn.className}
+                  value={btn.style}
                   onChange={e => set('buttons',
-                    state.buttons.map((b, j) => j === i ? { ...b, className: e.target.value } : b),
+                    state.buttons.map((b, j) => j === i ? { ...b, style: e.target.value } : b),
                   )}
-                  placeholder="my-primary"
+                  placeholder="background: black; color: white"
                 />
               </Field>
             </div>
@@ -134,7 +134,7 @@ export function SettingsPanel({ state, set }: Props) {
 
           <button
             type="button"
-            onClick={() => set('buttons', [...state.buttons, { label: '', className: '' }])}
+            onClick={() => set('buttons', [...state.buttons, { label: '', style: '' }])}
             className="w-full rounded-md border border-dashed border-zinc-300 dark:border-zinc-700 py-2 text-[12px] font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
             + Add button

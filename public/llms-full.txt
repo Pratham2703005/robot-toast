@@ -84,13 +84,21 @@ toast({
   message: 'Send this email to 1,200 people?',
   buttons: [
     { label: 'Cancel', onClick: () => abort() },
-    { label: 'Send',   onClick: () => send(), className: 'my-primary' },
+    {
+      label: 'Send',
+      onClick: () => send(),
+      // Two ways to style a button:
+      // - className → references a class defined in your stylesheet
+      // - style     → inline CSS object (key/value), takes precedence
+      style: { background: 'black', color: 'white' },
+    },
   ],
 });
 // Buttons render in array order. Each click fires its onClick then closes the
-// toast. Default style is a neutral outline; pass `className` on any button to
-// layer your own styling (e.g. filled CTA vs muted dismiss).
-// A callback that throws is logged and the toast still closes.
+// toast. Default style is a neutral outline; the SOLO button (when buttons.length
+// === 1) auto-styles as a filled dark CTA. Override either default with
+// className or style on any button. A throwing onClick is logged and the
+// toast still closes.
 ```
 
 ---
@@ -194,7 +202,8 @@ interface RobotToastOptions {
   buttons?:          Array<{
     label:     string;
     onClick:   (e: MouseEvent) => void;
-    className?: string;   // appended to the button element for custom styling
+    className?: string;                              // class name(s) from your stylesheet
+    style?:     Record<string, string | number>;     // inline CSS, takes precedence
   }>;
 
   // Lifecycle callbacks
