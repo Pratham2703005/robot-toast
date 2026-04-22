@@ -108,6 +108,31 @@ export function usePlayground() {
 
   const closeAll = useCallback(() => toast.closeAll(), []);
 
+  const triggerCustomToast = useCallback((options: Record<string, any>) => {
+    const runtimeVariant = options.robotVariant
+      ? toRuntimeVariantV2(options.robotVariant)
+      : undefined;
+
+    const buttons = options.buttons?.length
+      ? options.buttons
+          .filter((b: any) => b.label?.trim().length > 0)
+          .map((b: any) => ({
+            label: b.label,
+            style: parseCustomStyle(b.style),
+            onClick: () => {},
+          }))
+      : undefined;
+
+    toast({
+      message: options.message || 'Notification',
+      ...options,
+      robotVariant: runtimeVariant,
+      style: options.style ? parseCustomStyle(JSON.stringify(options.style)) : undefined,
+      autoClose: options.autoClose === false ? false : (options.autoClose || 5000),
+      buttons,
+    });
+  }, []);
+
   const code = generateCode(state, version);
 
   const copyCode = useCallback(() => {
@@ -118,6 +143,7 @@ export function usePlayground() {
     state,
     set,
     showToast,
+    triggerCustomToast,
     closeAll,
     copyCode,
     code,

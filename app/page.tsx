@@ -82,67 +82,20 @@ toast({
         />
       </div>
 
-      {/* Features List */}
-      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-10 sm:mb-16">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-          Key Features
+      {/* Features Showcase Link */}
+      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-10 sm:mb-16 text-center">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+          Explore All Features
         </h2>
-        <ul className="space-y-3 sm:space-y-4 text-gray-700 dark:text-gray-300">
-          <li className="flex gap-4">
-            <span className="text-2xl">🤖</span>
-            <div>
-              <strong>16 Robot Variants</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Choose from angry, happy, loading, success, and many more characters
-              </p>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            <span className="text-2xl">🎨</span>
-            <div>
-              <strong>6 Position Options</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                top-right, top-left, top-center, bottom-right, bottom-left, bottom-center
-              </p>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            <span className="text-2xl">🌈</span>
-            <div>
-              <strong>3 Themes & 5 Types</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Light, dark, and colored themes with info, success, warning, error, and default types
-              </p>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            <span className="text-2xl">✅</span>
-            <div>
-              <strong>Progress Tracking</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Optional progress bar for long-running operations
-              </p>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            <span className="text-2xl">🎯</span>
-            <div>
-              <strong>Rich Interactions</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Draggable, dismissible, pause on hover, and focus loss support
-              </p>
-            </div>
-          </li>
-          <li className="flex gap-4">
-            <span className="text-2xl">⌨️</span>
-            <div>
-              <strong>Typing Animation</strong>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Messages can be typed out character by character for effect
-              </p>
-            </div>
-          </li>
-        </ul>
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          Check out interactive demos of all 40+ features including robots, positions, themes, animations, and more.
+        </p>
+        <a
+          href="/features"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all"
+        >
+          View Features Showcase →
+        </a>
       </div>
 
       {/* Quick Example */}
