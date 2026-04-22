@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { ThemeToggle } from './ThemeToggle';
+import { VersionSelect } from './VersionSelect';
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,11 +47,14 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </svg>
           </button>
 
-          <h1 className="text-sm font-medium text-gray-600 dark:text-gray-400 truncate">
+          <h1 className="text-sm font-medium text-gray-600 dark:text-gray-400 truncate flex-1">
             Documentation
           </h1>
 
-          <ThemeToggle />
+          <div className="flex items-center gap-2 shrink-0">
+            <VersionSelect />
+            <ThemeToggle />
+          </div>
         </header>
 
         <main className="min-h-screen bg-white dark:bg-black">

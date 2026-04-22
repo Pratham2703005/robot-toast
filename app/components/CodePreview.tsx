@@ -38,22 +38,22 @@ export function CodePreview({ code, onCopy }: CodePreviewProps) {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  const fullCode = `import { toast } from 'robot-toast';\n\n${code}`;
+  // `code` already includes any imports needed (v1 and v2 both produce the
+  // full snippet). We just render it verbatim.
+  const escaped = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 
- const escaped = fullCode
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;');
-
-const highlighted = escaped
-  .replace(/(&#39;[^&#]*&#39;|&quot;[^&]*&quot;|'[^']*'|"[^"]*")/g,
-    `<span style="color:${colors.string}">$1</span>`)
-  .replace(/\b(import|from|const|let|true|false)\b/g,
-    `<span style="color:${colors.keyword}">$1</span>`)
-  .replace(/(^|\s)([a-zA-Z]+)(?=:)/g,
-  `$1<span style="color:${colors.property}">$2</span>`)
-  .replace(/\b(toast)\b/g,
-    `<span style="color:${colors.function}">$1</span>`);
+  const highlighted = escaped
+    .replace(/(&#39;[^&#]*&#39;|&quot;[^&]*&quot;|'[^']*'|"[^"]*")/g,
+      `<span style="color:${colors.string}">$1</span>`)
+    .replace(/\b(import|from|const|let|true|false)\b/g,
+      `<span style="color:${colors.keyword}">$1</span>`)
+    .replace(/(^|\s)([a-zA-Z]+)(?=:)/g,
+      `$1<span style="color:${colors.property}">$2</span>`)
+    .replace(/\b(toast)\b/g,
+      `<span style="color:${colors.function}">$1</span>`);
 
   return (
     <div className="lg:sticky lg:top-6 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-xl">

@@ -3,6 +3,8 @@
 import { useState, useCallback } from 'react';
 import { toast } from 'robot-toast';
 import { generateCode } from '@/utils';
+import { toRuntimeVariantV2 } from '@/lib/robotVariant';
+import { useDocsVersion } from '@/app/components/VersionContext';
 import type { PlaygroundState } from '@/types';
 
 // Helper to parse raw CSS string like "color: red; background: blue;" into JS object
@@ -54,18 +56,24 @@ const INITIAL: PlaygroundState = {
 
 export function usePlayground() {
   const [state, setState] = useState<PlaygroundState>(INITIAL);
+  const { version } = useDocsVersion();
 
   const set = useCallback(<K extends keyof PlaygroundState>(key: K, value: PlaygroundState[K]) => {
     setState(prev => ({ ...prev, [key]: value }));
   }, []);
 
   const showToast = useCallback(() => {
+    // Runtime is always v2 (what's installed). Translate the picker's v1-style
+    // value into the form v2 actually accepts: built-in names become their
+    // imported data URLs, 'none'/'' becomes undefined (v2's opt-in default).
+    const runtimeVariant = toRuntimeVariantV2(state.robotVariant);
+
     toast({
       message:         state.message,
       position:        state.position,
       type:            state.type,
       theme:           state.theme,
-      robotVariant:    state.robotVariant,
+      robotVariant:    runtimeVariant,
       style:           parseCustomStyle(state.customStyle),
       autoClose:       state.autoClose === '0' ? false : parseInt(state.autoClose, 10),
       typeSpeed:       parseInt(state.typeSpeed, 10),
@@ -83,10 +91,11 @@ export function usePlayground() {
 
   const closeAll = useCallback(() => toast.closeAll(), []);
 
+  const code = generateCode(state, version);
+
   const copyCode = useCallback(() => {
-    const code = `import { toast } from 'robot-toast';\n\n${generateCode(state)}`;
     navigator.clipboard.writeText(code);
-  }, [state]);
+  }, [code]);
 
   return {
     state,
@@ -94,6 +103,7 @@ export function usePlayground() {
     showToast,
     closeAll,
     copyCode,
-    code: generateCode(state),
+    code,
+    version,
   };
 }

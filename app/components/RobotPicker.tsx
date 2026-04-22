@@ -3,14 +3,23 @@
 import { useState } from 'react';
 import { ROBOT_OPTIONS } from '@/constants';
 import { Field } from './Field';
+import { useDocsVersion } from './VersionContext';
+import { classifyVariant } from '@/lib/robotVariant';
 
 interface RobotPickerProps {
   value:    string;
   onChange: (v: string) => void;
 }
 
+/** The v2 identifier to show next to a built-in option (handles renames). */
+function v2IdFor(value: string): string | null {
+  const k = classifyVariant(value);
+  return k.kind === 'builtin' ? k.id : null;
+}
+
 export function RobotPicker({ value, onChange }: RobotPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { version } = useDocsVersion();
 
   const selected = ROBOT_OPTIONS.find(o => o.value === value) || ROBOT_OPTIONS[0];
 
@@ -40,30 +49,39 @@ export function RobotPicker({ value, onChange }: RobotPickerProps) {
           {/* Dropdown Menu */}
           {isOpen && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-md shadow-lg z-50 max-h-56 overflow-y-auto">
-              {ROBOT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  onClick={() => {
-                    onChange(opt.value);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full px-3 py-2 text-sm text-left flex items-center justify-between transition-colors ${
-                    opt.value === value
-                      ? 'bg-blue-600 text-white'
-                      : 'text-zinc-900 dark:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-                  }`}
-                >
-                  <span>
-                    {opt.name}
-                    {opt.path && <span className={`ml-2 ${opt.value === value ? 'text-blue-100' : 'text-zinc-500 dark:text-zinc-400'}`}>{opt.path}</span>}
-                  </span>
-                  {opt.value === value && (
-                    <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                </button>
-              ))}
+              {ROBOT_OPTIONS.map((opt) => {
+                const isActive = opt.value === value;
+                const v2id = version === 'v2' ? v2IdFor(opt.value) : null;
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      onChange(opt.value);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-sm text-left flex items-center justify-between transition-colors ${
+                      isActive
+                        ? 'bg-blue-600 text-white'
+                        : 'text-zinc-900 dark:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                    }`}
+                  >
+                    <span>
+                      {opt.name}
+                      {opt.path && <span className={`ml-2 ${isActive ? 'text-blue-100' : 'text-zinc-500 dark:text-zinc-400'}`}>{opt.path}</span>}
+                      {v2id && v2id !== opt.value && (
+                        <span className={`ml-2 font-mono text-xs ${isActive ? 'text-blue-100' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                          import {'{'} {v2id} {'}'}
+                        </span>
+                      )}
+                    </span>
+                    {isActive && (
+                      <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

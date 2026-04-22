@@ -5,7 +5,7 @@ import { SettingsPanel } from '@/app/components/SettingsPanel';
 import { CodePreview } from '@/app/components/CodePreview';
 
 export default function Playground() {
-  const { state, set, showToast, closeAll, copyCode, code } = usePlayground();
+  const { state, set, showToast, closeAll, copyCode, code, version } = usePlayground();
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950">
@@ -13,11 +13,20 @@ export default function Playground() {
         {/* Header */}
         <div className="mb-6 sm:mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 mb-1">
-              Playground
-            </h1>
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                Playground
+              </h1>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${
+                version === 'v2'
+                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300'
+                  : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+              }`}>
+                {version === 'v2' ? 'v2 syntax' : 'v1 syntax'}
+              </span>
+            </div>
             <p className="text-[13px] text-zinc-400 dark:text-zinc-500">
-              Configure and preview toast notifications in real time.
+              Configure and preview toast notifications in real time. Runtime uses v2; the code preview follows the version selector.
             </p>
           </div>
         </div>

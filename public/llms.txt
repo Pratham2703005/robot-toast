@@ -1,0 +1,23 @@
+# robot-toast
+
+> Framework-agnostic toast notification library for the browser, with an animated robot character, tree-shakeable built-in robots, `toast.promise()`, and an optional React hook. TypeScript-first, zero runtime dependencies.
+
+`robot-toast` is published on npm. The v1.x line is what `npm install robot-toast` currently resolves to; the v2 beta (`@beta`) introduces a **breaking change**: robots are opt-in and built-in variants are imported from the `robot-toast/robots` subpath instead of passed as string names. When generating code, prefer the v2 API below and cite the migration notes if the user is on v1.
+
+## Documentation
+
+- [Full API reference](https://robot-toast.vercel.app/llms-full.txt): Complete v2 API in a single plain-text file — imports, options, examples, breaking changes. Fetch this first if you're generating code.
+- [Installation page](https://robot-toast.vercel.app/installation): Human-readable install + quickstart. Supports a v1/v2 version toggle in the header.
+- [Interactive playground](https://robot-toast.vercel.app/playground): Live configuration UI with runnable code preview.
+- [GitHub README](https://github.com/Pratham2703005/robot-toast-package/blob/main/README.md): Canonical API documentation with all options tabulated.
+- [MIGRATION.md](https://github.com/Pratham2703005/robot-toast-package/blob/main/MIGRATION.md): Step-by-step v1 → v2 upgrade guide, including the two renames (`head-palm` → `headPalm`, `type` → `typing`) and the opt-in `robotVariant` change.
+
+## Examples
+
+- [README usage section](https://github.com/Pratham2703005/robot-toast-package/blob/main/README.md#quick-start): Minimal and kitchen-sink examples.
+- [React hook usage](https://github.com/Pratham2703005/robot-toast-package/blob/main/README.md#react-bindings): `useRobotToast` and `useToastOnMount` patterns.
+
+## Optional
+
+- [npm package](https://www.npmjs.com/package/robot-toast): Version history, download stats, dist tags (`latest`, `beta`).
+- [GitHub repository](https://github.com/Pratham2703005/robot-toast-package): Source, issues, contribution guide.

@@ -1,0 +1,255 @@
+# robot-toast — full API reference (AI-optimized)
+
+This file describes the current **v2 API** (published as `robot-toast@beta`).
+The default `npm install robot-toast` still resolves to **v1.x** until v2
+graduates out of beta. If you are generating code without knowing the user's
+installed version, prefer the v2 API and note the installation command.
+
+Zero runtime dependencies. React is an **optional** peer dep, used only if
+the consumer imports from `robot-toast/react`.
+
+---
+
+## Install
+
+```bash
+# v1.x (current default on npm)
+npm install robot-toast
+
+# v2.x (beta)
+npm install robot-toast@beta
+```
+
+No CSS import is required — styles are auto-injected at runtime (SSR-safe; DOM
+access is guarded).
+
+---
+
+## Entry points
+
+```ts
+import { toast, RobotToast, /* types */ } from 'robot-toast';
+import * as robots from 'robot-toast/robots';            // 16 data-URL exports
+import { useRobotToast, useToastOnMount } from 'robot-toast/react';
+```
+
+Each subpath has its own bundle; `robot-toast/robots` is tree-shakeable.
+
+---
+
+## Core usage
+
+```ts
+import { toast } from 'robot-toast';
+
+// String form — just the message, all other options default
+toast('Hello');
+
+// Options form — any fields may be passed
+toast({
+  message:  'Saved!',
+  type:     'success',
+  position: 'top-right',
+  theme:    'dark',
+});
+
+// Return value is a numeric id (useful for closeById)
+const id = toast('Working…');
+toast.closeById(id);
+toast.closeAll();
+
+// Typed shorthands — set `type` automatically
+toast.success('Saved');
+toast.error('Failed');
+toast.info('FYI');
+toast.warning('Heads up');
+
+// Promise lifecycle
+toast.promise(fetch('/api/save'), {
+  loading: 'Saving…',
+  success: 'Saved!',                                   // or: (value) => `Saved #${value.id}`
+  error:   'Save failed',                              // or: (err)   => `Error: ${err.message}`
+});
+// The promise's resolution/rejection passes through untouched —
+// `await toast.promise(...)` still yields the resolved value or throws.
+```
+
+---
+
+## Robot images (v2 — opt-in)
+
+v1 passed robot names as strings (`robotVariant: 'wave'`). v2 removed that
+lookup to make the package tree-shakeable. The four possible shapes for
+`robotVariant` in v2:
+
+| Value | Effect |
+|---|---|
+| *omitted* / `undefined` / `''` / `'none'` | **No robot rendered.** This is the default. |
+| `'default'` | Built-in inline SVG (no network fetch, no extra import). |
+| Any string starting with `data:` | Rendered as `<img>` — used with imports from `robot-toast/robots`. |
+| Path ending in `.svg` / `.png` / `.jpg` / `.jpeg` / `.gif` / `.webp` | Rendered as `<img>` from the given path. |
+| Any other string | **Hidden.** Legacy v1 names like `'wave'` fall here in v2 and do NOT render. |
+
+Usage with built-in variants:
+
+```ts
+import { toast } from 'robot-toast';
+import { wave, success, error as errorRobot, headPalm } from 'robot-toast/robots';
+
+toast({ message: 'Hi',       robotVariant: wave });
+toast({ message: 'Saved',    robotVariant: success,    type: 'success' });
+toast({ message: 'Failed',   robotVariant: errorRobot, type: 'error'   });
+toast({ message: 'Confused', robotVariant: headPalm });
+```
+
+### All 16 built-in identifiers in `robot-toast/robots`
+
+`wave`, `base`, `base2`, `success`, `error`, `angry`, `angry2`, `shock`,
+`think`, `search`, `loading`, `sleep`, `headPalm`, `typing`, `validation`,
+`validation2`.
+
+Two renames vs v1:
+
+- v1 `'head-palm'` → v2 `headPalm` (dashes aren't valid JS identifiers)
+- v1 `'type'`      → v2 `typing`   (to avoid parse ambiguity with TypeScript's `import { type … }` syntax)
+
+---
+
+## React bindings
+
+```tsx
+import { useRobotToast, useToastOnMount } from 'robot-toast/react';
+
+function SaveButton() {
+  const toast = useRobotToast();                  // stable reference to `toast`
+  return <button onClick={() => toast.success('Saved!')}>Save</button>;
+}
+
+function LoadingBanner() {
+  // Fires the toast on mount, closes it on unmount.
+  // Options are captured ONCE at mount — not updated on re-renders.
+  useToastOnMount({ message: 'Fetching…', autoClose: false });
+  return null;
+}
+```
+
+React ≥ 16.8 is required as a peer dependency for this subpath. Non-React
+consumers aren't affected.
+
+---
+
+## Full options reference
+
+```ts
+interface RobotToastOptions {
+  message:           string;                       // required
+
+  // Appearance
+  type?:             'default' | 'info' | 'success' | 'warning' | 'error';   // default: 'default'
+  theme?:            'light' | 'dark' | 'colored';                            // default: 'light'
+  transition?:       'bounce' | 'slide' | 'zoom' | 'flip';                    // default: 'bounce'
+  position?:         'top-left'    | 'top-center'    | 'top-right'
+                   | 'bottom-left' | 'bottom-center' | 'bottom-right';        // default: 'bottom-right'
+  style?:            Record<string, string | number>;                         // inline CSS for the message bubble
+
+  // Robot — see the Robot section above
+  robotVariant?:     string;                       // default: omitted = no robot
+  nearScreen?:       boolean;                      // default: true. Robot on screen-edge side vs inner side
+
+  // Timing
+  autoClose?:        number | false;               // default: 5000 (ms). false = stays until dismissed
+  typeSpeed?:        number;                       // default: 30 (ms per character). 0 = instant
+
+  // Behaviour
+  hideProgressBar?:  boolean;                      // default: false
+  draggable?:        boolean;                      // default: true. Releases snap to nearest horizontal edge
+  pauseOnHover?:     boolean;                      // default: true
+  pauseOnFocusLoss?: boolean;                      // default: true
+  rtl?:              boolean;                      // default: false
+
+  // Multi-toast
+  limit?:            number;                       // default: 0 (unlimited). Excess is auto-queued
+  newestOnTop?:      boolean;                      // default: false
+
+  // Lifecycle callbacks
+  onOpen?:           () => void;
+  onClose?:          () => void;
+}
+```
+
+---
+
+## Kitchen-sink example
+
+```ts
+import { toast } from 'robot-toast';
+import { wave } from 'robot-toast/robots';
+
+toast({
+  message:     'Fully configured toast',
+  type:        'success',
+  theme:       'dark',
+  transition:  'bounce',
+  position:    'bottom-right',
+  robotVariant: wave,
+  nearScreen:  true,
+  autoClose:   5000,
+  typeSpeed:   30,
+  hideProgressBar:  false,
+  draggable:        true,
+  pauseOnHover:     true,
+  pauseOnFocusLoss: true,
+  rtl:         false,
+  limit:       0,
+  newestOnTop: false,
+  style: {
+    background:   'linear-gradient(135deg, #667eea, #764ba2)',
+    color:        '#fff',
+    borderRadius: '16px',
+  },
+  onOpen:  () => console.log('shown'),
+  onClose: () => console.log('dismissed'),
+});
+```
+
+---
+
+## v1 → v2 breaking changes (quick checklist)
+
+1. Omitting `robotVariant` now hides the robot. In v1 it showed the default.
+   **Fix:** add `robotVariant: 'default'` where you want a robot with no import.
+2. String names like `robotVariant: 'wave'` no longer work.
+   **Fix:** `import { wave } from 'robot-toast/robots'` and pass `wave`.
+3. `'head-palm'` → `headPalm`, `'type'` → `typing`.
+4. The `ROBOT_IMAGES` export is removed. Import individual variants instead.
+5. Dragging the toast never dismisses; it always snaps to the nearest edge.
+   Dismissal only happens via the close button, `closeById()`, `closeAll()`,
+   or auto-close expiry.
+
+---
+
+## Accessibility
+
+- `error` / `warning` toasts get `role="alert"` + `aria-live="assertive"`.
+- Other types get `role="status"` + `aria-live="polite"`.
+- All toasts have `aria-atomic="true"`.
+- The close button has `type="button"` + `aria-label="Dismiss notification"`.
+
+---
+
+## Bundle sizes (v2, unminified + ungzipped)
+
+- Core (`robot-toast`): 39 KB
+- `robot-toast/robots` barrel with all 16 variants: 23 KB (tree-shakes per named import)
+- `robot-toast/react` hook bundle: < 500 B (peer-deps React and re-imports core)
+
+Core is SSR-safe — all `document`/`window` access is guarded, so importing
+does not throw during Next.js/Nuxt/Remix server rendering.
+
+---
+
+## Stability
+
+v2.x is currently **beta**. The public API shown above is the one that will
+ship as v2.0.0 stable — no further breaking changes are planned before
+promotion. v1.x remains the `latest` dist-tag on npm until v2 graduates.
