@@ -148,11 +148,15 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
       type: 'success',
       autoClose: 2000,
       style: {
-        background: 'linear-gradient(135deg, #34d399 0%, #059669 100%)',
-        color: '#fff',
-        borderRadius: '12px',
-        boxShadow: '0 10px 30px -10px rgba(5,150,105,0.5)',
+        background: 'black',
+        color: '#10b981',
+        border: 'none',
+        boxShadow: '0 10px 30px -10px #10b98180',
+        borderRadius: '4px',
+        padding: '5px',
       },
+      hideProgressBar: true,
+      position: 'top-center',
     });
   };
 

@@ -705,19 +705,20 @@ export const FEATURES = [
     name: '2 Buttons',
     category: 'interaction',
     description: 'Toast with two action buttons',
-    codeExample: `toast({\n  message: 'Confirm action?',\n  buttons: [{\n    label: 'Cancel',\n    onClick: () => console.log('Cancelled'),\n    style: { background: '#6b7280', color: '#fff' }\n  }, {\n    label: 'Confirm',\n    onClick: () => console.log('Confirmed'),\n    style: { background: '#10b981', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    codeExample: `toast({\n  message: 'Something feels off... Are you sure, wanna keep going?',\n  buttons: [{\n    label: 'Yes, I am sure',\n    onClick: () => console.log('Confirmed'),\n    style: { background: 'black', color: '#fff' }\n  }, {\n    label: 'No, let me think',\n    onClick: () => console.log('Cancelled'),\n    style: { background: 'yellow', color: 'black' }\n  }],\n  robotVariant: 'dxd/pickachu.svg',\n  style: {\n    background: 'black',\n    color: 'yellow',\n    border: '1px solid yellow',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
     properties: {
-      message: 'Confirm action?',
+      message: 'Something feels off... Are you sure, wanna keep going?',
       buttons: [
-        { label: 'Cancel', onClick: () => {}, style: { background: '#6b7280', color: '#fff' } },
-        { label: 'Confirm', onClick: () => {}, style: { background: '#10b981', color: '#fff' } },
+        { label: 'Yes, I am sure', onClick: () => {}, style: { background: 'black', color: '#fff' } },
+        { label: 'No, let me think', onClick: () => {}, style: { background: 'yellow', color: 'black' } },
       ],
       style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
+        background: 'black',
+        color: 'yellow',
+        border: '1px solid yellow',
         boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
       },
+      robotVariant: 'dxd/pickachu.svg'
     },
   },
   {
