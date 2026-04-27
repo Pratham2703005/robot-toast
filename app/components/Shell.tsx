@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
 import { ThemeToggle } from './ThemeToggle';
 import { VersionSelect } from './VersionSelect';
+import { WelcomeToast } from './WelcomeToast';
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -30,6 +31,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen">
+      <WelcomeToast />
       <Sidebar open={sidebarOpen} onClose={closeSidebar} />
 
       <div className="flex-1 lg:ml-64 w-full min-w-0">

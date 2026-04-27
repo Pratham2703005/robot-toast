@@ -1,23 +1,25 @@
 import CopyButton from "./components/CopyButton";
 
 export default function Home() {
-  const code1 = `import { toast } from 'robot-toast';`;
+  const code1 = `import { toast } from 'robot-toast';
 
-  const code2 = `// Show a basic toast
+// Show a simple toast
+toast('Hello world! 🤖');`;
+
+  const code2 = `import { wave } from 'robot-toast/robots';
+
 toast({
-  message: 'Welcome back!',
-  position: 'top-right',
-  robotVariant: 'wave.svg',
-  duration: 3000
+  message: 'Success! Your file was saved.',
+  type: 'success',
+  robotVariant: wave
 });`;
 
-  const code3 = `// Show with options
+  const code3 = `// Customize everything
 toast({
-  message: 'Operation complete!',
-  type: 'success',
-  theme: 'light',
-  position: 'bottom-right',
-  draggable: true
+  message: 'Update available',
+  type: 'info',
+  position: 'top-right',
+  autoClose: 4000
 });`;
 
   return (
@@ -51,34 +53,54 @@ toast({
       {/* Features Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-10 sm:mb-16">
         <FeatureCard
-          icon="✨"
-          title="Animated Characters"
-          description="15+ unique robot characters with smooth animations and personality."
+          icon="🤖"
+          title="15+ Robot Characters"
+          description="Unique animated robots including wave, angry, shock, loading, and more."
         />
         <FeatureCard
           icon="🎨"
           title="Fully Customizable"
-          description="Control position, theme, type, animations, and behavior to match your design."
+          description="Control position, theme, type, animations, and all visual aspects."
         />
         <FeatureCard
           icon="📦"
           title="TypeScript Support"
-          description="Full type definitions for complete IDE support and autocomplete."
+          description="Full type definitions for complete IDE support and type safety."
         />
         <FeatureCard
           icon="🌙"
           title="Light & Dark Mode"
-          description="Beautiful themes with automatic light/dark mode detection."
+          description="Beautiful themes with seamless light/dark mode support."
         />
         <FeatureCard
           icon="⚡"
           title="Zero Dependencies"
-          description="Lightweight and standalone - no external dependencies required."
+          description="Lightweight and standalone library with no external dependencies."
         />
         <FeatureCard
           icon="📱"
-          title="Responsive Design"
-          description="Perfect on all devices with touch-friendly interactions."
+          title="Mobile Responsive"
+          description="Touch-friendly interactions and optimized for all device sizes."
+        />
+        <FeatureCard
+          icon="🎯"
+          title="8 Toast Positions"
+          description="Display toasts anywhere - top/bottom, left/right, or center."
+        />
+        <FeatureCard
+          icon="🔄"
+          title="Queue Management"
+          description="Smart queuing with adjustable limits to prevent notification overflow."
+        />
+        <FeatureCard
+          icon="✋"
+          title="Interactive Features"
+          description="Pause on hover, keyboard support, and draggable notifications."
+        />
+        <FeatureCard
+          icon="🚀"
+          title="Type Animations"
+          description="Text can animate character-by-character for engaging messages."
         />
       </div>
 
