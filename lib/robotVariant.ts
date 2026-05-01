@@ -35,10 +35,15 @@ export type VariantKind =
   | { kind: 'default' }
   | { kind: 'hidden' };
 
+// Accepted in both forms: the picker / v1 hyphenated style ('head-palm', 'type')
+// AND the v2 identifier exported by robot-toast/robots ('headPalm', 'typing').
+// constants.ts → FEATURES uses the v2 identifier form to match the codeExample
+// import lines, so both have to resolve to the same data URL.
 const BUILTIN_NAMES = new Set<string>([
   'wave', 'base', 'base2', 'success', 'error',
   'angry', 'angry2', 'shock', 'think', 'search',
-  'loading', 'sleep', 'head-palm', 'type',
+  'loading', 'sleep',
+  'headPalm','typing',
   'validation', 'validation2',
 ]);
 

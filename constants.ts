@@ -60,894 +60,703 @@ export const CATEGORY_THEME: Record<string, { label: string; accent: string; bg:
   other:      { label: '🍞 other-style',  accent: '#0a0a0a', bg: 'linear-gradient(135deg, #27272a 0%, #0a0a0a 100%)', text: '#fff' },
 };
 
-// Shared toast style fragments used across FEATURES
-const robotStyle = (accent: string) => ({
-  background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',
-  color: '#fff',
-  borderLeft: `4px solid ${accent}`,
-  borderRadius: '14px',
-  boxShadow: '0 10px 30px -10px rgba(139,92,246,0.5)',
-});
+// ────────────────────────────────────────────────────────────────────────────
+// Unified toast style — premium Sonner-like dark.
+// Applied to every feature so the demo site has a single coherent look. The
+// per-feature `properties` still vary the BEHAVIOUR being demonstrated
+// (position, transition, robotVariant, autoClose, etc.) — only the visual
+// chrome is shared.
+// ────────────────────────────────────────────────────────────────────────────
+export const TOAST_STYLE = {
+  background: '#0a0a0a',
+  color: '#fafafa',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: '12px',
+  boxShadow: '0 16px 32px -12px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.3)',
+  fontSize: '14px',
+  fontWeight: '500',
+  letterSpacing: '-0.01em',
+} as const;
 
-const positionStyle = (shadow: string) => ({
-  background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',
-  color: '#fff',
-  borderRadius: '14px',
-  boxShadow: shadow,
-});
+// Primary CTA — solid white-on-dark, bold. Used for the first button in any
+// multi-button toast (the "main action") and as the only button when there's
+// just one. High visual weight signals "this is what to click."
+export const TOAST_BUTTON_PRI = {
+  background: '#fafafa',
+  color: '#0a0a0a',
+  border: 'none',
+  borderRadius: '6px',
+  fontWeight: '600',
+  fontSize: '12px',
+  padding: '6px 12px',
+} as const;
 
-const typeStyle = (gradient: string, edge: string) => ({
-  background: gradient,
-  color: '#fff',
-  borderLeft: `4px solid ${edge}`,
-  borderRadius: '14px',
-  boxShadow: '0 10px 30px -10px rgba(0,0,0,0.25)',
-});
+// Secondary — outlined / muted. Used for "Cancel" or alternate actions next
+// to the primary CTA. Same shape and size as the primary so the row lines up
+// cleanly, but visually steps back so the primary reads as the default action.
+export const TOAST_BUTTON_SEC = {
+  background: 'transparent',
+  color: '#a1a1aa',
+  border: '1px solid #27272a',
+  borderRadius: '6px',
+  fontWeight: '500',
+  fontSize: '12px',
+  padding: '6px 12px',
+} as const;
+
+// ────────────────────────────────────────────────────────────────────────────
+// Authentic Sonner-style toasts — used ONLY by the "other" category demos.
+// These are pure message-only toasts (no robot, no progress chrome) and follow
+// Sonner's "high-contrast" recipe: pure black surface, white text, solid
+// near-black border (no opacity tricks), tight 10px radius, layered shadow.
+// Per-type variants tint the border subtly while keeping text white — Sonner
+// signals type via icon color, not text color, so we follow that convention
+// (the existing emojis in each feature's message act as the colored icon).
+// ────────────────────────────────────────────────────────────────────────────
+const SONNER_BASE = {
+  background: '#000000',
+  color: '#ffffff',
+  border: '1px solid #262626',
+  borderRadius: '10px',
+  padding: '3px 4px',
+  fontSize: '14px',
+  fontFamily: 'Inter, -apple-system, system-ui, sans-serif',
+  fontWeight: '500',
+  // Layout: row-flex with gap so the (hidden-progress-bar) Sonner toast keeps
+  // its lifted, generous-padding feel even when the message contains an emoji
+  // "icon" + text. minWidth matches Sonner's standard 356px toast width.
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  boxShadow: '0 8px 16px rgba(0,0,0,0.4)',
+} as const;
+
+export const SONNER_STYLE = {
+  default: SONNER_BASE,
+  success: { ...SONNER_BASE, border: '1px solid #1a2e1a' },
+  error:   { ...SONNER_BASE, border: '1px solid #2e1a1a' },
+  info:    { ...SONNER_BASE, border: '1px solid #1a232e' },
+  warning: { ...SONNER_BASE, border: '1px solid #2e281a' },
+} as const;
+
+// Code-example fragments — kept in sync with the constants above so the snippet
+// shown in each feature card matches what actually renders.
+const STYLE_CODE = `style: {
+    background: '#0a0a0a',
+    color: '#fafafa',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '12px',
+    boxShadow: '0 16px 32px -12px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.3)',
+  }`;
+
+const BTN_CODE     = `{ background: '#fafafa', color: '#0a0a0a', border: 'none', borderRadius: '6px', fontWeight: '600' }`;
+const BTN_SEC_CODE = `{ background: 'transparent', color: '#a1a1aa', border: '1px solid #27272a', borderRadius: '6px', fontWeight: '500' }`;
+
+// Sonner code-example builder — no robot import, tinted border per type.
+const sonnerCode = (border: string) => `style: {
+    background: '#000000',
+    color: '#ffffff',
+    border: '${border}',
+    borderRadius: '10px',
+    padding: '12px 16px',
+    fontSize: '14px',
+    fontFamily: 'Inter, -apple-system, system-ui, sans-serif',
+    fontWeight: '500',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    minWidth: '356px',
+    boxShadow: '0 8px 16px rgba(0,0,0,0.4)',
+  }`;
+
+const sonnerEx = (body: string) =>
+  `import { toast } from 'robot-toast';\n\ntoast(${body});`;
+
+// Helper to build a toast() codeExample with consistent imports + style block.
+// Every feature shows the robot variant being used in its `import` block, so
+// users can see the full code path for any demo (the whole point of the site).
+const ex = (variant: string, body: string) =>
+  `import { toast } from 'robot-toast';\nimport { ${variant} } from 'robot-toast/robots';\n\ntoast(${body});`;
 
 // Features data for the Features page
 export const FEATURES = [
-  // 16 Robot Variants
+  // ─── Robot Variants (16) ─────────────────────────────────────────────────
   {
     id: 'robot-wave',
     name: 'Wave Robot',
     category: 'robot',
     description: 'Friendly waving robot companion',
-    codeExample: `import { toast } from 'robot-toast';\nimport { wave } from 'robot-toast/robots';\n\ntoast({\n  message: 'Hello there! 👋',\n  robotVariant: wave,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #60a5fa',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'wave', message: 'Hello there! 👋', style: robotStyle('#60a5fa') },
+    codeExample: ex('wave', `{\n  message: 'Hello there! 👋',\n  robotVariant: wave,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'wave', message: 'Hello there! 👋', style: TOAST_STYLE },
   },
   {
     id: 'robot-base',
     name: 'Base Robot',
     category: 'robot',
     description: 'Standard robot variant',
-    codeExample: `import { toast } from 'robot-toast';\nimport { base } from 'robot-toast/robots';\n\ntoast({\n  message: 'Base robot loaded',\n  robotVariant: base,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #64748b',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'base', message: 'Base robot loaded', style: robotStyle('#64748b') },
+    codeExample: ex('base', `{\n  message: 'Base robot loaded',\n  robotVariant: base,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'base', message: 'Base robot loaded', style: TOAST_STYLE },
   },
   {
     id: 'robot-base2',
     name: 'Base 2 Robot',
     category: 'robot',
     description: 'Alternative base variant',
-    codeExample: `import { toast } from 'robot-toast';\nimport { base2 } from 'robot-toast/robots';\n\ntoast({\n  message: 'Base 2 activated',\n  robotVariant: base2,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #475569',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'base2', message: 'Base 2 activated', style: robotStyle('#475569') },
+    codeExample: ex('base2', `{\n  message: 'Base 2 activated',\n  robotVariant: base2,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'base2', message: 'Base 2 activated', style: TOAST_STYLE },
   },
   {
     id: 'robot-success',
     name: 'Success Robot',
     category: 'robot',
     description: 'Happy robot for success messages',
-    codeExample: `import { toast } from 'robot-toast';\nimport { success } from 'robot-toast/robots';\n\ntoast.success({\n  message: 'Operation successful!',\n  robotVariant: success,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #10b981',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'success', message: 'Operation successful!', type: 'success', style: robotStyle('#10b981') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { success } from 'robot-toast/robots';\n\ntoast.success({\n  message: 'Operation successful!',\n  robotVariant: success,\n  ${STYLE_CODE},\n});`,
+    properties: { robotVariant: 'success', message: 'Operation successful!', type: 'success', style: TOAST_STYLE },
   },
   {
     id: 'robot-error',
     name: 'Error Robot',
     category: 'robot',
     description: 'Worried robot for error messages',
-    codeExample: `import { toast } from 'robot-toast';\nimport { error } from 'robot-toast/robots';\n\ntoast.error({\n  message: 'Something went wrong',\n  robotVariant: error,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #ef4444',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'error', message: 'Something went wrong', type: 'error', style: robotStyle('#ef4444') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { error } from 'robot-toast/robots';\n\ntoast.error({\n  message: 'Something went wrong',\n  robotVariant: error,\n  ${STYLE_CODE},\n});`,
+    properties: { robotVariant: 'error', message: 'Something went wrong', type: 'error', style: TOAST_STYLE },
   },
   {
     id: 'robot-angry',
     name: 'Angry Robot',
     category: 'robot',
     description: 'Angry expression robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { angry } from 'robot-toast/robots';\n\ntoast({\n  message: 'Warning: angry mode',\n  robotVariant: angry,\n  type: 'warning',\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #f97316',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'angry', message: 'Warning: angry mode', type: 'warning', style: robotStyle('#f97316') },
+    codeExample: ex('angry', `{\n  message: 'Warning: angry mode',\n  robotVariant: angry,\n  type: 'warning',\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'angry', message: 'Warning: angry mode', type: 'warning', style: TOAST_STYLE },
   },
   {
     id: 'robot-angry2',
     name: 'Angry 2 Robot',
     category: 'robot',
     description: 'Alternative angry variant',
-    codeExample: `import { toast } from 'robot-toast';\nimport { angry2 } from 'robot-toast/robots';\n\ntoast({\n  message: 'Extra angry!',\n  robotVariant: angry2,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #dc2626',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'angry2', message: 'Extra angry!', style: robotStyle('#dc2626') },
+    codeExample: ex('angry2', `{\n  message: 'Extra angry!',\n  robotVariant: angry2,\n  type: 'warning',\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'angry2', message: 'Extra angry!', type: 'warning', style: TOAST_STYLE },
   },
   {
     id: 'robot-shock',
     name: 'Shock Robot',
     category: 'robot',
     description: 'Surprised robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { shock } from 'robot-toast/robots';\n\ntoast({\n  message: 'Unexpected event!',\n  robotVariant: shock,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #f59e0b',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'shock', message: 'Unexpected event!', style: robotStyle('#f59e0b') },
+    codeExample: ex('shock', `{\n  message: 'Unexpected event!',\n  robotVariant: shock,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'shock', message: 'Unexpected event!', style: TOAST_STYLE },
   },
   {
     id: 'robot-think',
     name: 'Think Robot',
     category: 'robot',
     description: 'Thoughtful robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { think } from 'robot-toast/robots';\n\ntoast({\n  message: 'Let me think...',\n  robotVariant: think,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #8b5cf6',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'think', message: 'Let me think...', style: robotStyle('#8b5cf6') },
+    codeExample: ex('think', `{\n  message: 'Let me think...',\n  robotVariant: think,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'think', message: 'Let me think...', style: TOAST_STYLE },
   },
   {
     id: 'robot-search',
     name: 'Search Robot',
     category: 'robot',
     description: 'Searching robot with magnifying glass',
-    codeExample: `import { toast } from 'robot-toast';\nimport { search } from 'robot-toast/robots';\n\ntoast({\n  message: 'Searching...',\n  robotVariant: search,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #06b6d4',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'search', message: 'Searching...', style: robotStyle('#06b6d4') },
+    codeExample: ex('search', `{\n  message: 'Searching...',\n  robotVariant: search,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'search', message: 'Searching...', style: TOAST_STYLE },
   },
   {
     id: 'robot-loading',
     name: 'Loading Robot',
     category: 'robot',
     description: 'Loading spinner robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { loading } from 'robot-toast/robots';\n\ntoast({\n  message: 'Loading...',\n  robotVariant: loading,\n  autoClose: false,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #6366f1',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'loading', message: 'Loading...', autoClose: false, style: robotStyle('#6366f1') },
+    codeExample: ex('loading', `{\n  message: 'Loading...',\n  robotVariant: loading,\n  autoClose: 5000,\n  hideProgressBar: true,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'loading', message: 'Loading...', autoClose: 5000, hideProgressBar: true, style: TOAST_STYLE },
   },
   {
     id: 'robot-sleep',
     name: 'Sleep Robot',
     category: 'robot',
     description: 'Sleeping robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { sleep } from 'robot-toast/robots';\n\ntoast({\n  message: 'Time to sleep',\n  robotVariant: sleep,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #94a3b8',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'sleep', message: 'Time to sleep', style: robotStyle('#94a3b8') },
+    codeExample: ex('sleep', `{\n  message: 'Time to sleep',\n  robotVariant: sleep,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'sleep', message: 'Time to sleep', style: TOAST_STYLE },
   },
   {
     id: 'robot-headpalm',
     name: 'Head Palm Robot',
     category: 'robot',
     description: 'Embarrassed head-palm gesture',
-    codeExample: `import { toast } from 'robot-toast';\nimport { headPalm } from 'robot-toast/robots';\n\ntoast({\n  message: 'Oops!',\n  robotVariant: headPalm,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #ec4899',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'headPalm', message: 'Oops!', style: robotStyle('#ec4899') },
+    codeExample: ex('headPalm', `{\n  message: 'Oopsies!',\n  type: 'error',\n  robotVariant: headPalm,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'headPalm', message: 'Oopsies!', type: 'error', style: TOAST_STYLE },
   },
   {
     id: 'robot-typing',
     name: 'Typing Robot',
     category: 'robot',
     description: 'Robot with typing gesture',
-    codeExample: `import { toast } from 'robot-toast';\nimport { typing } from 'robot-toast/robots';\n\ntoast({\n  message: 'Typing...',\n  robotVariant: typing,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #14b8a6',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'typing', message: 'Typing...', style: robotStyle('#14b8a6') },
+    codeExample: ex('typing', `{\n  message: 'Typing...',\n  robotVariant: typing,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'typing', message: 'Typing...', style: TOAST_STYLE },
   },
   {
     id: 'robot-validation',
     name: 'Validation Robot',
     category: 'robot',
     description: 'Validation check robot',
-    codeExample: `import { toast } from 'robot-toast';\nimport { validation } from 'robot-toast/robots';\n\ntoast({\n  message: 'Validation passed!',\n  robotVariant: validation,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #22c55e',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'validation', message: 'Validation passed!', style: robotStyle('#22c55e') },
+    codeExample: ex('validation', `{\n  message: 'Validation passed!',\n  type: 'success',\n  robotVariant: validation,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'validation', message: 'Validation passed!', type: 'success', style: TOAST_STYLE },
   },
   {
     id: 'robot-validation2',
     name: 'Validation 2 Robot',
     category: 'robot',
     description: 'Alternative validation variant',
-    codeExample: `import { toast } from 'robot-toast';\nimport { validation2 } from 'robot-toast/robots';\n\ntoast({\n  message: 'All checks passed',\n  robotVariant: validation2,\n  style: {\n    background: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #16a34a',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { robotVariant: 'validation2', message: 'All checks passed', style: robotStyle('#16a34a') },
+    codeExample: ex('validation2', `{\n  message: 'All checks passed',\n  type: 'success',\n  robotVariant: validation2,\n  ${STYLE_CODE},\n}`),
+    properties: { robotVariant: 'validation2', message: 'All checks passed', type: 'success', style: TOAST_STYLE },
   },
 
-  // Position Options
+  // ─── Position Options (6) ────────────────────────────────────────────────
   {
     id: 'position-topright',
     name: 'Top Right Position',
     category: 'position',
     description: 'Display toast in the top-right corner',
-    codeExample: `toast({\n  message: 'Top right position',\n  position: 'top-right',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '8px -8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Top right position', position: 'top-right', style: positionStyle('8px -8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('wave', `{\n  message: 'Top right position',\n  position: 'top-right',\n  robotVariant: wave,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Top right position', position: 'top-right', robotVariant: 'wave', style: TOAST_STYLE },
   },
   {
     id: 'position-topleft',
     name: 'Top Left Position',
     category: 'position',
     description: 'Display toast in the top-left corner',
-    codeExample: `toast({\n  message: 'Top left position',\n  position: 'top-left',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '-8px -8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Top left position', position: 'top-left', style: positionStyle('-8px -8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('base', `{\n  message: 'Top left position',\n  position: 'top-left',\n  robotVariant: base,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Top left position', position: 'top-left', robotVariant: 'base', style: TOAST_STYLE },
   },
   {
     id: 'position-topcenter',
     name: 'Top Center Position',
     category: 'position',
     description: 'Display toast at the top center',
-    codeExample: `toast({\n  message: 'Top center position',\n  position: 'top-center',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 -8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Top center position', position: 'top-center', style: positionStyle('0 -8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('base2', `{\n  message: 'Top center position',\n  position: 'top-center',\n  robotVariant: base2,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Top center position', position: 'top-center', robotVariant: 'base2', style: TOAST_STYLE },
   },
   {
     id: 'position-bottomright',
     name: 'Bottom Right Position',
     category: 'position',
     description: 'Display toast in the bottom-right corner',
-    codeExample: `toast({\n  message: 'Bottom right position',\n  position: 'bottom-right',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '8px 8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Bottom right position', position: 'bottom-right', style: positionStyle('8px 8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('success', `{\n  message: 'Bottom right position',\n  position: 'bottom-right',\n  robotVariant: success,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Bottom right position', position: 'bottom-right', robotVariant: 'success', style: TOAST_STYLE },
   },
   {
     id: 'position-bottomleft',
     name: 'Bottom Left Position',
     category: 'position',
     description: 'Display toast in the bottom-left corner',
-    codeExample: `toast({\n  message: 'Bottom left position',\n  position: 'bottom-left',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '-8px 8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Bottom left position', position: 'bottom-left', style: positionStyle('-8px 8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('validation', `{\n  message: 'Bottom left position',\n  position: 'bottom-left',\n  robotVariant: validation,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Bottom left position', position: 'bottom-left', robotVariant: 'validation', style: TOAST_STYLE },
   },
   {
     id: 'position-bottomcenter',
     name: 'Bottom Center Position',
     category: 'position',
     description: 'Display toast at the bottom center',
-    codeExample: `toast({\n  message: 'Bottom center position',\n  position: 'bottom-center',\n  style: {\n    background: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(6,182,212,0.35)',\n  },\n});`,
-    properties: { message: 'Bottom center position', position: 'bottom-center', style: positionStyle('0 8px 24px rgba(6,182,212,0.35)') },
+    codeExample: ex('validation2', `{\n  message: 'Bottom center position',\n  position: 'bottom-center',\n  robotVariant: validation2,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Bottom center position', position: 'bottom-center', robotVariant: 'validation2', style: TOAST_STYLE },
   },
 
-  // Theme Options
+  // ─── Theme Options (3) ───────────────────────────────────────────────────
   {
     id: 'theme-light',
     name: 'Light Theme',
     category: 'theme',
     description: 'Light color scheme',
-    codeExample: `toast({\n  message: 'Light theme',\n  theme: 'light',\n  style: {\n    background: '#ffffff',\n    color: '#111827',\n    border: '1px solid #e5e7eb',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.2)',\n  },\n});`,
-    properties: {
-      message: 'Light theme',
-      theme: 'light',
-      style: {
-        background: '#ffffff',
-        color: '#111827',
-        border: '1px solid #e5e7eb',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(0,0,0,0.2)',
-      },
-    },
+    codeExample: ex('wave', `{\n  message: 'Light theme',\n  theme: 'light',\n  robotVariant: wave,\n}`),
+    properties: { message: 'Light theme', theme: 'light', robotVariant: 'wave' },
   },
   {
     id: 'theme-dark',
     name: 'Dark Theme',
     category: 'theme',
     description: 'Dark color scheme',
-    codeExample: `toast({\n  message: 'Dark theme',\n  theme: 'dark',\n  style: {\n    background: '#0f172a',\n    color: '#f1f5f9',\n    border: '1px solid #334155',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)',\n  },\n});`,
-    properties: {
-      message: 'Dark theme',
-      theme: 'dark',
-      style: {
-        background: '#0f172a',
-        color: '#f1f5f9',
-        border: '1px solid #334155',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)',
-      },
-    },
+    codeExample: ex('think', `{\n  message: 'Dark theme',\n  theme: 'dark',\n  robotVariant: think,\n}`),
+    properties: { message: 'Dark theme', theme: 'dark', robotVariant: 'think' },
   },
   {
     id: 'theme-colored',
     name: 'Colored Theme',
     category: 'theme',
     description: 'Colorful theme based on type',
-    codeExample: `toast({\n  message: 'Colored theme',\n  theme: 'colored',\n  type: 'success',\n  style: {\n    background: 'linear-gradient(135deg, #f472b6 0%, #db2777 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(219,39,119,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Colored theme',
-      theme: 'colored',
-      type: 'success',
-      style: {
-        background: 'linear-gradient(135deg, #f472b6 0%, #db2777 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(219,39,119,0.4)',
-      },
-    },
+    codeExample: `import { toast } from 'robot-toast';\nimport { success } from 'robot-toast/robots';\n\ntoast({\n  message: 'Colored theme',\n  theme: 'colored',\n  type: 'success',\n  robotVariant: success,\n});`,
+    properties: { message: 'Colored theme', theme: 'colored', type: 'success', robotVariant: 'success' },
   },
 
-  // Toast Type Options
+  // ─── Toast Type Options (5) ──────────────────────────────────────────────
   {
     id: 'type-default',
     name: 'Default Type',
     category: 'type',
     description: 'Default notification type',
-    codeExample: `toast({\n  message: 'Default type',\n  type: 'default',\n  style: {\n    background: 'linear-gradient(135deg, #94a3b8 0%, #475569 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #334155',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { message: 'Default type', type: 'default', style: typeStyle('linear-gradient(135deg, #94a3b8 0%, #475569 100%)', '#334155') },
+    codeExample: ex('base', `{\n  message: 'Default type',\n  type: 'default',\n  robotVariant: base,\n}`),
+    properties: { message: 'Default type', type: 'default', robotVariant: 'base' },
   },
   {
     id: 'type-info',
     name: 'Info Type',
     category: 'type',
     description: 'Informational notification',
-    codeExample: `toast.info({\n  message: 'Info type notification',\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #1e40af',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { message: 'Info type notification', type: 'info', style: typeStyle('linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)', '#1e40af') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { think } from 'robot-toast/robots';\n\ntoast.info({\n  message: 'Info type notification',\n  robotVariant: think,\n});`,
+    properties: { message: 'Info type notification', type: 'info', robotVariant: 'think' },
   },
   {
     id: 'type-success',
     name: 'Success Type',
     category: 'type',
     description: 'Success notification',
-    codeExample: `toast.success({\n  message: 'Operation successful!',\n  style: {\n    background: 'linear-gradient(135deg, #34d399 0%, #059669 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #047857',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { message: 'Operation successful!', type: 'success', style: typeStyle('linear-gradient(135deg, #34d399 0%, #059669 100%)', '#047857') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { success } from 'robot-toast/robots';\n\ntoast.success({\n  message: 'Operation successful!',\n  robotVariant: success,\n});`,
+    properties: { message: 'Operation successful!', type: 'success', robotVariant: 'success' },
   },
   {
     id: 'type-warning',
     name: 'Warning Type',
     category: 'type',
     description: 'Warning notification',
-    codeExample: `toast.warning({\n  message: 'Check your input',\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #b45309',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { message: 'Check your input', type: 'warning', style: typeStyle('linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', '#b45309') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { angry } from 'robot-toast/robots';\n\ntoast.warning({\n  message: 'Check your input',\n  robotVariant: angry,\n});`,
+    properties: { message: 'Check your input', type: 'warning', robotVariant: 'angry' },
   },
   {
     id: 'type-error',
     name: 'Error Type',
     category: 'type',
     description: 'Error notification',
-    codeExample: `toast.error({\n  message: 'Something went wrong',\n  style: {\n    background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',\n    color: '#fff',\n    borderLeft: '4px solid #991b1b',\n    borderRadius: '14px',\n  },\n});`,
-    properties: { message: 'Something went wrong', type: 'error', style: typeStyle('linear-gradient(135deg, #f87171 0%, #dc2626 100%)', '#991b1b') },
+    codeExample: `import { toast } from 'robot-toast';\nimport { error } from 'robot-toast/robots';\n\ntoast.error({\n  message: 'Something went wrong',\n  robotVariant: error,\n});`,
+    properties: { message: 'Something went wrong', type: 'error', robotVariant: 'error' },
   },
 
-  // Feature Demonstrations
+  // ─── Animations (5) ──────────────────────────────────────────────────────
   {
     id: 'feature-typing',
     name: 'Typewriter Effect',
     category: 'animation',
     description: 'Characters appear one by one',
-    codeExample: `toast({\n  message: 'This appears letter by letter',\n  typeSpeed: 30,\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    letterSpacing: '0.02em',\n    boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',\n  },\n});`,
-    properties: {
-      message: 'This appears letter by letter',
-      typeSpeed: 30,
-      style: {
-        background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        letterSpacing: '0.02em',
-        boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',
-      },
-    },
+    codeExample: ex('typing', `{\n  message: 'This appears letter by letter',\n  typeSpeed: 30,\n  robotVariant: typing,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'This appears letter by letter', typeSpeed: 30, robotVariant: 'typing', style: TOAST_STYLE },
   },
   {
     id: 'transition-bounce',
     name: 'Bounce Transition',
     category: 'animation',
     description: 'Springy bounce entry and exit',
-    codeExample: `toast({\n  message: 'Boing! Bounce transition',\n  transition: 'bounce',\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Boing! Bounce transition',
-      transition: 'bounce',
-      style: {
-        background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',
-      },
-    },
+    codeExample: ex('shock', `{\n  message: 'Boing! Bounce transition',\n  transition: 'bounce',\n  robotVariant: shock,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Boing! Bounce transition', transition: 'bounce', robotVariant: 'shock', style: TOAST_STYLE },
   },
   {
     id: 'transition-slide',
     name: 'Slide Transition',
     category: 'animation',
     description: 'Smooth horizontal slide in and out',
-    codeExample: `toast({\n  message: 'Sliding into view',\n  transition: 'slide',\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Sliding into view',
-      transition: 'slide',
-      style: {
-        background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',
-      },
-    },
+    codeExample: ex('wave', `{\n  message: 'Sliding into view',\n  transition: 'slide',\n  robotVariant: wave,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Sliding into view', transition: 'slide', robotVariant: 'wave', style: TOAST_STYLE },
   },
   {
     id: 'transition-zoom',
     name: 'Zoom Transition',
     category: 'animation',
     description: 'Scales up from the center',
-    codeExample: `toast({\n  message: 'Zooming in!',\n  transition: 'zoom',\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Zooming in!',
-      transition: 'zoom',
-      style: {
-        background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',
-      },
-    },
+    codeExample: ex('shock', `{\n  message: 'Zooming in!',\n  transition: 'zoom',\n  robotVariant: shock,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Zooming in!', transition: 'zoom', robotVariant: 'shock', style: TOAST_STYLE },
   },
   {
     id: 'transition-flip',
     name: 'Flip Transition',
     category: 'animation',
     description: '3D flip entry',
-    codeExample: `toast({\n  message: 'Flipping in 3D',\n  transition: 'flip',\n  style: {\n    background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Flipping in 3D',
-      transition: 'flip',
-      style: {
-        background: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(217,119,6,0.4)',
-      },
-    },
+    codeExample: ex('validation', `{\n  message: 'Flipping in 3D',\n  transition: 'flip',\n  robotVariant: validation,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Flipping in 3D', transition: 'flip', robotVariant: 'validation', style: TOAST_STYLE },
   },
+
+  // ─── Behavior (8) ────────────────────────────────────────────────────────
   {
     id: 'feature-progress',
     name: 'Progress Bar',
     category: 'behavior',
     description: 'Countdown progress bar animation',
-    codeExample: `toast({\n  message: 'Auto-closes in 5 seconds',\n  hideProgressBar: false,\n  autoClose: 5000,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Auto-closes in 5 seconds',
-      hideProgressBar: false,
-      autoClose: 5000,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('loading', `{\n  message: 'Auto-closes in 5 seconds',\n  hideProgressBar: false,\n  autoClose: 5000,\n  robotVariant: loading,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Auto-closes in 5 seconds', hideProgressBar: false, autoClose: 5000, robotVariant: 'loading', style: TOAST_STYLE },
   },
   {
     id: 'feature-persistent',
     name: 'Persistent Toast',
     category: 'behavior',
     description: 'Disable auto-close — toast stays until manually dismissed',
-    codeExample: `toast({\n  message: 'I will stay until you close me',\n  autoClose: 0,\n  hideProgressBar: true,\n  style: {\n    background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    borderLeft: '4px solid #fbbf24',\n    boxShadow: '0 10px 30px -10px rgba(30,58,138,0.5)',\n  },\n});`,
-    properties: {
-      message: 'I will stay until you close me',
-      autoClose: 0,
-      hideProgressBar: true,
-      style: {
-        background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        borderLeft: '4px solid #fbbf24',
-        boxShadow: '0 10px 30px -10px rgba(30,58,138,0.5)',
-      },
-    },
+    codeExample: ex('sleep', `{\n  message: 'I will stay until you close me',\n  autoClose: 0,\n  hideProgressBar: true,\n  robotVariant: sleep,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'I will stay until you close me', autoClose: 0, hideProgressBar: true, robotVariant: 'sleep', style: TOAST_STYLE },
   },
   {
     id: 'feature-autoclose-short',
     name: 'Quick Close (1.5s)',
     category: 'behavior',
     description: 'Short-lived toast that auto-closes in 1.5 seconds',
-    codeExample: `toast({\n  message: 'Gone in a flash',\n  autoClose: 1500,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Gone in a flash',
-      autoClose: 1500,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('shock', `{\n  message: 'Gone in a flash',\n  autoClose: 1500,\n  robotVariant: shock,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Gone in a flash', autoClose: 1500, robotVariant: 'shock', style: TOAST_STYLE },
   },
   {
     id: 'feature-autoclose-long',
     name: 'Long Display (10s)',
     category: 'behavior',
     description: 'Lingering toast with a 10-second countdown',
-    codeExample: `toast({\n  message: 'Take your time reading this',\n  autoClose: 10000,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Take your time reading this',
-      autoClose: 10000,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('sleep', `{\n  message: 'Take your time reading this',\n  autoClose: 10000,\n  robotVariant: sleep,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Take your time reading this', autoClose: 10000, robotVariant: 'sleep', style: TOAST_STYLE },
   },
   {
     id: 'feature-hide-progress',
     name: 'Hidden Progress Bar',
     category: 'behavior',
     description: 'Auto-closes without showing the countdown bar',
-    codeExample: `toast({\n  message: 'No progress bar, just a clean close',\n  hideProgressBar: true,\n  autoClose: 4000,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'No progress bar, just a clean close',
-      hideProgressBar: true,
-      autoClose: 4000,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('base', `{\n  message: 'No progress bar, just a clean close',\n  hideProgressBar: true,\n  autoClose: 4000,\n  robotVariant: base,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'No progress bar, just a clean close', hideProgressBar: true, autoClose: 4000, robotVariant: 'base', style: TOAST_STYLE },
   },
   {
     id: 'feature-pause-hover',
     name: 'Pause on Hover',
     category: 'behavior',
     description: 'Countdown pauses while the cursor is over the toast',
-    codeExample: `toast({\n  message: 'Hover over me to pause',\n  pauseOnHover: true,\n  autoClose: 6000,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Hover over me to pause',
-      pauseOnHover: true,
-      autoClose: 6000,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('think', `{\n  message: 'Hover over me to pause',\n  pauseOnHover: true,\n  autoClose: 6000,\n  robotVariant: think,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Hover over me to pause', pauseOnHover: true, autoClose: 6000, robotVariant: 'think', style: TOAST_STYLE },
   },
   {
     id: 'feature-pause-focus',
     name: 'Pause on Focus Loss',
     category: 'behavior',
     description: 'Countdown pauses when the window loses focus (try switching tabs)',
-    codeExample: `toast({\n  message: 'Switch tabs — my timer pauses',\n  pauseOnFocusLoss: true,\n  autoClose: 8000,\n  style: {\n    background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Switch tabs — my timer pauses',
-      pauseOnFocusLoss: true,
-      autoClose: 8000,
-      style: {
-        background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(37,99,235,0.4)',
-      },
-    },
+    codeExample: ex('think', `{\n  message: 'Switch tabs — my timer pauses',\n  pauseOnFocusLoss: true,\n  autoClose: 8000,\n  robotVariant: think,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Switch tabs — my timer pauses', pauseOnFocusLoss: true, autoClose: 8000, robotVariant: 'think', style: TOAST_STYLE },
   },
   {
     id: 'feature-draggable',
     name: 'Drag & Drop',
     category: 'interaction',
     description: 'Click and drag the toast anywhere',
-    codeExample: `toast({\n  message: 'Try dragging me around!',\n  draggable: true,\n  style: {\n    background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    fontWeight: '600',\n    boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',\n  },\n});`,
-    properties: {
-      message: 'Try dragging me around!',
-      draggable: true,
-      style: {
-        background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        fontWeight: '600',
-        boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',
-      },
-    },
+    codeExample: ex('wave', `{\n  message: 'Try dragging me around!',\n  draggable: true,\n  robotVariant: wave,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Try dragging me around!', draggable: true, robotVariant: 'wave', style: TOAST_STYLE },
   },
+
+  // ─── Async (2) ───────────────────────────────────────────────────────────
   {
     id: 'feature-promise',
     name: 'Promise Lifecycle',
     category: 'async',
     description: 'Handle loading, success, and error states',
-    codeExample: `toast.promise(fetchData(), {\n  loading: 'Loading...',\n  success: 'Loaded!',\n  error: 'Failed!',\n}, {\n  style: {\n    background: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(79,70,229,0.4)',\n  },\n});`,
-    properties: {
-      message: 'Promise lifecycle demo',
-      style: {
-        background: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(79,70,229,0.4)',
-      },
-    },
+    codeExample: `import { toast } from 'robot-toast';\nimport { loading } from 'robot-toast/robots';\n\ntoast.promise(fetchData(), {\n  loading: 'Loading...',\n  success: 'Loaded!',\n  error: 'Failed!',\n}, {\n  robotVariant: loading,\n  ${STYLE_CODE},\n});`,
+    properties: { message: 'Promise lifecycle demo', robotVariant: 'loading', style: TOAST_STYLE },
   },
   {
     id: 'feature-lifecycle',
     name: 'Lifecycle Callbacks',
     category: 'async',
     description: 'Fire custom logic when the toast opens and closes (check your console)',
-    codeExample: `toast({\n  message: 'Lifecycle hooks — see console',\n  autoClose: 3000,\n  onOpen: () => console.log('Toast opened'),\n  onClose: () => console.log('Toast closed'),\n  style: {\n    background: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(79,70,229,0.4)',\n  },\n});`,
+    codeExample: ex('validation', `{\n  message: 'Lifecycle hooks — see console',\n  autoClose: 3000,\n  onOpen: () => console.log('Toast opened'),\n  onClose: () => console.log('Toast closed'),\n  robotVariant: validation,\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Lifecycle hooks — see console',
       autoClose: 3000,
       onOpen: () => console.log('Toast opened'),
       onClose: () => console.log('Toast closed'),
-      style: {
-        background: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(79,70,229,0.4)',
-      },
+      robotVariant: 'validation',
+      style: TOAST_STYLE,
     },
   },
+
+  // ─── Interaction (non-button) (2) ────────────────────────────────────────
   {
     id: 'feature-rtl',
     name: 'RTL Layout',
     category: 'interaction',
     description: 'Right-to-left layout — message on the right, robot on the left',
-    codeExample: `toast({\n  message: 'مرحبا — RTL layout',\n  rtl: true,\n  robotVariant: wave,\n  style: {\n    background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',\n  },\n});`,
-    properties: {
-      message: 'مرحبا — RTL layout',
-      rtl: true,
-      robotVariant: 'wave',
-      style: {
-        background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',
-      },
-    },
+    codeExample: ex('wave', `{\n  message: 'مرحبا — RTL layout',\n  rtl: true,\n  robotVariant: wave,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'مرحبا — RTL layout', rtl: true, robotVariant: 'wave', style: TOAST_STYLE },
   },
   {
     id: 'feature-near-screen',
     name: 'Away From Edge',
     category: 'interaction',
     description: 'Flip robot placement so the message sits closer to the screen edge',
-    codeExample: `toast({\n  message: 'Robot sits away from the edge',\n  robotVariant: base,\n  nearScreen: false,\n  style: {\n    background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',\n  },\n});`,
-    properties: {
-      message: 'Robot sits away from the edge',
-      robotVariant: 'base',
-      nearScreen: false,
-      style: {
-        background: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 12px 28px -10px rgba(220,38,38,0.45)',
-      },
-    },
+    codeExample: ex('base', `{\n  message: 'Robot sits away from the edge',\n  robotVariant: base,\n  nearScreen: false,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Robot sits away from the edge', robotVariant: 'base', nearScreen: false, style: TOAST_STYLE },
   },
+
+  // ─── Styling (1) ─────────────────────────────────────────────────────────
   {
     id: 'feature-custom-style',
     name: 'Custom Styling',
     category: 'styling',
     description: 'Apply custom CSS styles inline',
-    codeExample: `toast({\n  message: 'Styled toast',\n  style: {\n    background: 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 14px 32px -12px rgba(13,148,136,0.5)',\n  },\n});`,
-    properties: {
-      message: 'Styled toast',
-      style: {
-        background: 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 14px 32px -12px rgba(13,148,136,0.5)',
-      },
-    },
+    codeExample: ex('validation2', `{\n  message: 'Styled toast',\n  robotVariant: validation2,\n  ${STYLE_CODE},\n}`),
+    properties: { message: 'Styled toast', robotVariant: 'validation2', style: TOAST_STYLE },
   },
 
-  // Button variations
+  // ─── Button variations (6) ───────────────────────────────────────────────
   {
     id: 'buttons-1',
     name: '1 Button',
     category: 'interaction',
     description: 'Toast with a single action button',
-    codeExample: `toast({\n  message: 'Action needed',\n  buttons: [{\n    label: 'Done',\n    onClick: () => console.log('Clicked!'),\n    style: { background: '#3b82f6', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    codeExample: ex('validation', `{\n  message: 'Action needed',\n  robotVariant: validation,\n  buttons: [{\n    label: 'Done',\n    onClick: () => console.log('Clicked!'),\n    style: ${BTN_CODE}\n  }],\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Action needed',
-      buttons: [{ label: 'Done', onClick: () => {}, style: { background: '#3b82f6', color: '#fff' } }],
-      style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
+      robotVariant: 'validation',
+      buttons: [{ label: 'Done', onClick: () => {}, style: TOAST_BUTTON_SEC }],
+      style: TOAST_STYLE,
     },
   },
   {
     id: 'buttons-2',
     name: '2 Buttons',
     category: 'interaction',
-    description: 'Toast with two action buttons',
-    codeExample: `toast({\n  message: 'Something feels off... Are you sure, wanna keep going?',\n  buttons: [{\n    label: 'Yes, I am sure',\n    onClick: () => console.log('Confirmed'),\n    style: { background: 'black', color: '#fff' }\n  }, {\n    label: 'No, let me think',\n    onClick: () => console.log('Cancelled'),\n    style: { background: 'yellow', color: 'black' }\n  }],\n  robotVariant: 'dxd/pickachu.svg',\n  style: {\n    background: 'black',\n    color: 'yellow',\n    border: '1px solid yellow',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    description: 'Toast with two action buttons — primary CTA + secondary',
+    codeExample: ex('think', `{\n  message: 'Are you sure you want to continue?',\n  robotVariant: think,\n  buttons: [\n    { label: 'Confirm', onClick: () => {}, style: ${BTN_CODE} },\n    { label: 'Cancel',  onClick: () => {}, style: ${BTN_SEC_CODE} },\n  ],\n  ${STYLE_CODE},\n}`),
     properties: {
-      message: 'Something feels off... Are you sure, wanna keep going?',
+      message: 'Are you sure you want to continue?',
+      robotVariant: 'think',
       buttons: [
-        { label: 'Yes, I am sure', onClick: () => {}, style: { background: 'black', color: '#fff' } },
-        { label: 'No, let me think', onClick: () => {}, style: { background: 'yellow', color: 'black' } },
+        { label: 'Confirm', onClick: () => {}, style: TOAST_BUTTON_SEC },
+        { label: 'Cancel',  onClick: () => {}, style: TOAST_BUTTON_PRI },
       ],
-      style: {
-        background: 'black',
-        color: 'yellow',
-        border: '1px solid yellow',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
-      robotVariant: 'dxd/pickachu.svg'
+      style: TOAST_STYLE,
     },
   },
   {
     id: 'buttons-3',
     name: '3 Buttons',
     category: 'interaction',
-    description: 'Toast with three action buttons',
-    codeExample: `toast({\n  message: 'Choose option',\n  buttons: [{\n    label: 'Option 1',\n    onClick: () => {},\n    style: { background: '#ef4444', color: '#fff' }\n  }, {\n    label: 'Option 2',\n    onClick: () => {},\n    style: { background: '#3b82f6', color: '#fff' }\n  }, {\n    label: 'Option 3',\n    onClick: () => {},\n    style: { background: '#10b981', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    description: 'Toast with three action buttons — first primary, rest secondary',
+    codeExample: ex('search', `{\n  message: 'Choose option',\n  robotVariant: search,\n  buttons: [\n    { label: 'Option 1', onClick: () => {}, style: ${BTN_CODE} },\n    { label: 'Option 2', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Option 3', onClick: () => {}, style: ${BTN_SEC_CODE} },\n  ],\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Choose option',
+      robotVariant: 'search',
       buttons: [
-        { label: 'Option 1', onClick: () => {}, style: { background: '#ef4444', color: '#fff' } },
-        { label: 'Option 2', onClick: () => {}, style: { background: '#3b82f6', color: '#fff' } },
-        { label: 'Option 3', onClick: () => {}, style: { background: '#10b981', color: '#fff' } },
+        { label: 'Option 1', onClick: () => {}, style: TOAST_BUTTON_SEC },
+        { label: 'Option 2', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Option 3', onClick: () => {}, style: TOAST_BUTTON_PRI },
       ],
-      style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
+      style: TOAST_STYLE,
     },
   },
   {
     id: 'buttons-4',
     name: '4 Buttons',
     category: 'interaction',
-    description: 'Toast with four action buttons',
-    codeExample: `toast({\n  message: 'Multiple choices',\n  buttons: [{\n    label: 'A',\n    onClick: () => {},\n    style: { background: '#8b5cf6', color: '#fff' }\n  }, {\n    label: 'B',\n    onClick: () => {},\n    style: { background: '#ec4899', color: '#fff' }\n  }, {\n    label: 'C',\n    onClick: () => {},\n    style: { background: '#f59e0b', color: '#fff' }\n  }, {\n    label: 'D',\n    onClick: () => {},\n    style: { background: '#06b6d4', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    description: 'Toast with four action buttons — first primary, rest secondary',
+    codeExample: ex('shock', `{\n  message: 'Multiple choices',\n  robotVariant: shock,\n  buttons: [\n    { label: 'A', onClick: () => {}, style: ${BTN_CODE} },\n    { label: 'B', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'C', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'D', onClick: () => {}, style: ${BTN_SEC_CODE} },\n  ],\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Multiple choices',
+      robotVariant: 'shock',
       buttons: [
-        { label: 'A', onClick: () => {}, style: { background: '#8b5cf6', color: '#fff' } },
-        { label: 'B', onClick: () => {}, style: { background: '#ec4899', color: '#fff' } },
-        { label: 'C', onClick: () => {}, style: { background: '#f59e0b', color: '#fff' } },
-        { label: 'D', onClick: () => {}, style: { background: '#06b6d4', color: '#fff' } },
+        { label: 'A', onClick: () => {}, style: TOAST_BUTTON_SEC },
+        { label: 'B', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'C', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'D', onClick: () => {}, style: TOAST_BUTTON_PRI },
       ],
-      style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
+      style: TOAST_STYLE,
     },
   },
   {
     id: 'buttons-5',
     name: '5 Buttons',
     category: 'interaction',
-    description: 'Toast with five action buttons',
-    codeExample: `toast({\n  message: 'Many options',\n  buttons: [{\n    label: 'Btn 1',\n    onClick: () => {},\n    style: { background: '#3b82f6', color: '#fff' }\n  }, {\n    label: 'Btn 2',\n    onClick: () => {},\n    style: { background: '#10b981', color: '#fff' }\n  }, {\n    label: 'Btn 3',\n    onClick: () => {},\n    style: { background: '#f59e0b', color: '#fff' }\n  }, {\n    label: 'Btn 4',\n    onClick: () => {},\n    style: { background: '#ef4444', color: '#fff' }\n  }, {\n    label: 'Btn 5',\n    onClick: () => {},\n    style: { background: '#8b5cf6', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    description: 'Toast with five action buttons — first primary, rest secondary',
+    codeExample: ex('angry', `{\n  message: 'Many options',\n  robotVariant: angry,\n  buttons: [\n    { label: 'Btn 1', onClick: () => {}, style: ${BTN_CODE} },\n    { label: 'Btn 2', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Btn 3', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Btn 4', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Btn 5', onClick: () => {}, style: ${BTN_SEC_CODE} },\n  ],\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Many options',
+      robotVariant: 'angry',
       buttons: [
-        { label: 'Btn 1', onClick: () => {}, style: { background: '#3b82f6', color: '#fff' } },
-        { label: 'Btn 2', onClick: () => {}, style: { background: '#10b981', color: '#fff' } },
-        { label: 'Btn 3', onClick: () => {}, style: { background: '#f59e0b', color: '#fff' } },
-        { label: 'Btn 4', onClick: () => {}, style: { background: '#ef4444', color: '#fff' } },
-        { label: 'Btn 5', onClick: () => {}, style: { background: '#8b5cf6', color: '#fff' } },
+        { label: 'Btn 1', onClick: () => {}, style: TOAST_BUTTON_SEC },
+        { label: 'Btn 2', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Btn 3', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Btn 4', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Btn 5', onClick: () => {}, style: TOAST_BUTTON_PRI },
       ],
-      style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
+      style: TOAST_STYLE,
     },
   },
   {
     id: 'buttons-6',
     name: '6 Buttons',
     category: 'interaction',
-    description: 'Toast with six action buttons',
-    codeExample: `toast({\n  message: 'Maximum buttons',\n  buttons: [{\n    label: 'One',\n    onClick: () => {},\n    style: { background: '#3b82f6', color: '#fff' }\n  }, {\n    label: 'Two',\n    onClick: () => {},\n    style: { background: '#10b981', color: '#fff' }\n  }, {\n    label: 'Three',\n    onClick: () => {},\n    style: { background: '#f59e0b', color: '#fff' }\n  }, {\n    label: 'Four',\n    onClick: () => {},\n    style: { background: '#ef4444', color: '#fff' }\n  }, {\n    label: 'Five',\n    onClick: () => {},\n    style: { background: '#8b5cf6', color: '#fff' }\n  }, {\n    label: 'Six',\n    onClick: () => {},\n    style: { background: '#ec4899', color: '#fff' }\n  }],\n  style: {\n    background: '#1e293b',\n    color: '#fff',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',\n  },\n});`,
+    description: 'Toast with six action buttons — first primary, rest secondary',
+    codeExample: ex('headPalm', `{\n  message: 'Maximum buttons',\n  robotVariant: headPalm,\n  buttons: [\n    { label: 'One',   onClick: () => {}, style: ${BTN_CODE} },\n    { label: 'Two',   onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Three', onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Four',  onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Five',  onClick: () => {}, style: ${BTN_SEC_CODE} },\n    { label: 'Six',   onClick: () => {}, style: ${BTN_SEC_CODE} },\n  ],\n  ${STYLE_CODE},\n}`),
     properties: {
       message: 'Maximum buttons',
+      robotVariant: 'headPalm',
       buttons: [
-        { label: 'One', onClick: () => {}, style: { background: '#3b82f6', color: '#fff' } },
-        { label: 'Two', onClick: () => {}, style: { background: '#10b981', color: '#fff' } },
-        { label: 'Three', onClick: () => {}, style: { background: '#f59e0b', color: '#fff' } },
-        { label: 'Four', onClick: () => {}, style: { background: '#ef4444', color: '#fff' } },
-        { label: 'Five', onClick: () => {}, style: { background: '#8b5cf6', color: '#fff' } },
-        { label: 'Six', onClick: () => {}, style: { background: '#ec4899', color: '#fff' } },
+        { label: 'One',   onClick: () => {}, style: TOAST_BUTTON_SEC },
+        { label: 'Two',   onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Three', onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Four',  onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Five',  onClick: () => {}, style: TOAST_BUTTON_PRI },
+        { label: 'Six',   onClick: () => {}, style: TOAST_BUTTON_PRI },
       ],
-      style: {
-        background: '#1e293b',
-        color: '#fff',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -10px rgba(15,23,42,0.6)',
-      },
+      style: TOAST_STYLE,
     },
   },
 
-  // other-style — dark minimalist toasts built from just `message` + `style`.
-  // Icons are composed via color-emoji in the message; no padding, shared borderRadius.
+  // ─── Sonner-style (7) — authentic Sonner look. No robot, no progress bar,
+  // tight black surface with tinted border per semantic type. Uses SONNER_STYLE
+  // constants instead of TOAST_STYLE so the two looks stay cleanly separated.
+  // hideProgressBar is on every entry — Sonner relies on natural fade-out, not
+  // a visual countdown line.
   {
     id: 'other-default',
-    name: 'other Default',
+    name: 'Sonner · Default',
     category: 'other',
-    description: 'Dark other base — white text on near-black with a subtle border',
-    codeExample: `toast({\n  message: 'Event has been created',\n  style: {\n    background: '#0a0a0a',\n    color: '#fafafa',\n    border: '1px solid rgba(255,255,255,0.08)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '500',\n  },\n});`,
-    properties: {
-      message: 'Event has been created',
-      style: {
-        background: '#0a0a0a',
-        color: '#fafafa',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '500',
-      },
-    },
+    description: 'Plain Sonner-style message — black surface, neutral border',
+    codeExample: sonnerEx(`{\n  message: 'Event has been created',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #262626')},\n}`),
+    properties: { message: 'Event has been created', hideProgressBar: true, style: SONNER_STYLE.default },
   },
   {
     id: 'other-success',
-    name: 'other · Success',
+    name: 'Sonner · Success',
     category: 'other',
-    description: 'Dark card with a green accent — matches the other success look',
-    codeExample: `toast({\n  message: '✅  Workspace activated successfully',\n  style: {\n    background: '#0a0a0a',\n    color: '#4ade80',\n    border: '1px solid rgba(74,222,128,0.25)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '600',\n  },\n});`,
-    properties: {
-      message: '✅  Workspace activated successfully',
-      style: {
-        background: '#0a0a0a',
-        color: '#4ade80',
-        border: '1px solid rgba(74,222,128,0.25)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '600',
-      },
-    },
+    description: 'Success state — green-tinted border',
+    codeExample: sonnerEx(`{\n  message: '✅  Workspace activated successfully',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #1a2e1a')},\n}`),
+    properties: { message: '✅  Workspace activated successfully', hideProgressBar: true, style: SONNER_STYLE.success },
   },
   {
     id: 'other-error',
-    name: 'other · Error',
+    name: 'Sonner · Error',
     category: 'other',
-    description: 'Dark card with a red accent',
-    codeExample: `toast({\n  message: '❌  Could not save your changes',\n  style: {\n    background: '#0a0a0a',\n    color: '#f87171',\n    border: '1px solid rgba(248,113,113,0.25)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '600',\n  },\n});`,
-    properties: {
-      message: '❌  Could not save your changes',
-      style: {
-        background: '#0a0a0a',
-        color: '#f87171',
-        border: '1px solid rgba(248,113,113,0.25)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '600',
-      },
-    },
+    description: 'Error state — red-tinted border',
+    codeExample: sonnerEx(`{\n  message: '❌  Could not save your changes',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #2e1a1a')},\n}`),
+    properties: { message: '❌  Could not save your changes', hideProgressBar: true, style: SONNER_STYLE.error },
   },
   {
     id: 'other-warning',
-    name: 'other · Warning',
+    name: 'Sonner · Warning',
     category: 'other',
-    description: 'Dark card with an amber accent',
-    codeExample: `toast({\n  message: '⚠️  Double-check your input',\n  style: {\n    background: '#0a0a0a',\n    color: '#fbbf24',\n    border: '1px solid rgba(251,191,36,0.25)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '600',\n  },\n});`,
-    properties: {
-      message: '⚠️  Double-check your input',
-      style: {
-        background: '#0a0a0a',
-        color: '#fbbf24',
-        border: '1px solid rgba(251,191,36,0.25)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '600',
-      },
-    },
+    description: 'Warning state — amber-tinted border',
+    codeExample: sonnerEx(`{\n  message: '⚠️  Double-check your input',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #2e281a')},\n}`),
+    properties: { message: '⚠️  Double-check your input', hideProgressBar: true, style: SONNER_STYLE.warning },
   },
   {
     id: 'other-info',
-    name: 'other · Info',
+    name: 'Sonner · Info',
     category: 'other',
-    description: 'Dark card with a blue accent',
-    codeExample: `toast({\n  message: '💡  Your file is being processed',\n  style: {\n    background: '#0a0a0a',\n    color: '#60a5fa',\n    border: '1px solid rgba(96,165,250,0.25)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '600',\n  },\n});`,
-    properties: {
-      message: '💡  Your file is being processed',
-      style: {
-        background: '#0a0a0a',
-        color: '#60a5fa',
-        border: '1px solid rgba(96,165,250,0.25)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '600',
-      },
-    },
+    description: 'Info state — blue-tinted border',
+    codeExample: sonnerEx(`{\n  message: '💡  Your file is being processed',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #1a232e')},\n}`),
+    properties: { message: '💡  Your file is being processed', hideProgressBar: true, style: SONNER_STYLE.info },
   },
   {
     id: 'other-description',
-    name: 'other · Description',
+    name: 'Sonner · Description',
     category: 'other',
-    description: 'Two-line toast — title + subtitle via newline in the message',
-    codeExample: `toast({\n  message: '✅  Event created at Sunday, December 3rd at 9:30 PM',\n  style: {\n    background: '#0a0a0a',\n    color: '#fafafa',\n    border: '1px solid rgba(255,255,255,0.08)',\n    borderRadius: '14px',\n    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',\n    fontSize: '14px',\n    fontWeight: '500',\n    whiteSpace: 'pre-line',\n    lineHeight: '1.5',\n  },\n});`,
+    description: 'Two-line toast — title + subtitle via newline (whiteSpace: pre-line)',
+    codeExample: sonnerEx(`{\n  message: '✅  Event created\\nSunday, December 3rd at 9:30 PM',\n  hideProgressBar: true,\n  style: {\n    ...sonnerBase,\n    whiteSpace: 'pre-line',\n    lineHeight: '1.5',\n  },\n}`),
     properties: {
       message: '✅  Event created\nSunday, December 3rd at 9:30 PM',
-      style: {
-        background: '#0a0a0a',
-        color: '#fafafa',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-        fontSize: '14px',
-        fontWeight: '500',
-        whiteSpace: 'pre-line',
-        lineHeight: '1.5',
-      },
+      hideProgressBar: true,
+      style: { ...SONNER_STYLE.default, whiteSpace: 'pre-line', lineHeight: '1.5' },
     },
   },
   {
     id: 'other-rich',
-    name: 'other · Rich',
+    name: 'Sonner · Rich',
     category: 'other',
-    description: 'Glassy gradient card with an inset highlight',
-    codeExample: `toast({\n  message: '✨  New feature available',\n  style: {\n    background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',\n    color: '#fafafa',\n    border: '1px solid rgba(255,255,255,0.08)',\n    borderRadius: '14px',\n    boxShadow: '0 10px 30px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',\n    fontSize: '14px',\n    fontWeight: '600',\n    letterSpacing: '0.01em',\n  },\n});`,
-    properties: {
-      message: '✨  New feature available',
-      style: {
-        background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
-        color: '#fafafa',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        boxShadow: '0 10px 30px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
-        fontSize: '14px',
-        fontWeight: '600',
-        letterSpacing: '0.01em',
-      },
-    },
+    description: 'New-feature announcement — neutral border',
+    codeExample: sonnerEx(`{\n  message: '✨  New feature available',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #262626')},\n}`),
+    properties: { message: '✨  New feature available', hideProgressBar: true, style: SONNER_STYLE.default },
   },
 ] as const;

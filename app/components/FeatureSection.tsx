@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'robot-toast';
 import { toRuntimeVariantV2 } from '@/lib/robotVariant';
-import { CATEGORY_THEME, type FEATURES } from '@/constants';
+import { CATEGORY_THEME, TOAST_STYLE, type FEATURES } from '@/constants';
 
 interface FeatureSectionProps {
   feature: (typeof FEATURES)[number];
@@ -147,14 +147,7 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
       message: 'Code copied!',
       type: 'success',
       autoClose: 2000,
-      style: {
-        background: 'black',
-        color: '#10b981',
-        border: 'none',
-        boxShadow: '0 10px 30px -10px #10b98180',
-        borderRadius: '4px',
-        padding: '5px',
-      },
+      style: TOAST_STYLE,
       hideProgressBar: true,
       position: 'top-center',
     });
