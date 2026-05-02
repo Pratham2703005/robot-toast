@@ -58,6 +58,7 @@ export const CATEGORY_THEME: Record<string, { label: string; accent: string; bg:
   async:       { label: '⏳ Async',        accent: '#6366f1', bg: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)', text: '#fff' },
   styling:     { label: '🎭 Styling',      accent: '#14b8a6', bg: 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)', text: '#fff' },
   other:      { label: '🍞 other-style',  accent: '#0a0a0a', bg: 'linear-gradient(135deg, #27272a 0%, #0a0a0a 100%)', text: '#fff' },
+  memes:       { label: '😂 Memes',        accent: '#f43f5e', bg: 'linear-gradient(135deg, #fb7185 0%, #e11d48 100%)', text: '#fff' },
 };
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -177,6 +178,119 @@ const sonnerEx = (body: string) =>
 // users can see the full code path for any demo (the whole point of the site).
 const ex = (variant: string, body: string) =>
   `import { toast } from 'robot-toast';\nimport { ${variant} } from 'robot-toast/robots';\n\ntoast(${body});`;
+
+// ────────────────────────────────────────────────────────────────────────────
+// Meme styles — one bespoke style per meme image. Each one leans into the
+// vibe of its source (Deadpool red/black, Pikachu yellow/red, Sharingan
+// crimson radial, etc.) so the Memes section feels like a sticker pack
+// rather than a uniform grid. These override TOAST_STYLE entirely.
+// ────────────────────────────────────────────────────────────────────────────
+const MEME_STYLES = {
+  jlLijiye: {
+    background: '#000',
+    color: '#ff75b8',
+    border: '2px solid #ff75b8',
+    borderRadius: '12px',
+    boxShadow: '0 0 20px rgba(255, 117, 185, 0.6), 0 8px 24px -4px rgba(255, 117, 185, 0.3), inset 0 0 0 1px rgba(255, 117, 185, 0.2)',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+    fontWeight: '500',
+  },
+  billy: {
+    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+    color: '#2a818a',
+    border: '2px solid #2a818a',
+    borderRadius: '999px 12px 999px 12px',
+    boxShadow: '0 0 32px rgba(42, 129, 138, 0.6), 0 20px 40px -8px rgba(42, 129, 138, 0.4), inset 0 0 0 1px rgba(42, 129, 138, 0.2)',
+    fontWeight: '600',
+    letterSpacing: '0.02em',
+  },
+  bird: {
+    background: 'linear-gradient(135deg, #7dd3fc 0%, #38bdf8 50%, #06b6d4 100%)',
+    color: '#ffffff',
+    border: '2px solid #0891b2',
+    borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+    boxShadow: '0 8px 16px -4px rgba(6, 182, 212, 0.25)',
+    fontWeight: '600',
+  },
+  deadpool: {
+    background: 'linear-gradient(135deg, #7f1d1d 0%, #000000 100%)',
+    color: '#fecaca',
+    border: '1px solid #dc2626',
+    borderRadius: '12px',
+    boxShadow: '0 0 0 2px #000, 0 12px 28px -8px rgba(220,38,38,0.7)',
+    fontWeight: '700',
+    letterSpacing: '0.02em',
+  },
+  hypocrisy: {
+    background: 'linear-gradient(135deg, #422006 0%, #78350f 100%)',
+    color: '#fde68a',
+    border: '1px solid #d97706',
+    borderRadius: '8px',
+    boxShadow: '0 14px 30px -8px rgba(217,119,6,0.5), inset 0 1px 0 rgba(253,230,138,0.2)',
+    fontStyle: 'italic',
+    fontWeight: '600',
+  },
+  jinwoo: {
+    background: 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #0a0a0a 100%)',
+    color: '#c4b5fd',
+    border: '1px solid #7c3aed',
+    borderRadius: '14px',
+    boxShadow: '0 0 24px rgba(139,92,246,0.5), 0 16px 32px -10px rgba(0,0,0,0.8)',
+    fontWeight: '600',
+    letterSpacing: '0.01em',
+  },
+  kyaKrRha: {
+    background: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)',
+    color: '#431407',
+    border: '3px solid #1c0701',
+    borderRadius: '6px',
+    boxShadow: '6px 6px 0 #1c0701, 12px 12px 28px -8px rgba(0,0,0,0.4)',
+    fontWeight: '800',
+    fontFamily: '"Comic Sans MS", "Comic Neue", cursive',
+  },
+  pikachu: {
+    background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 100%)',
+    color: '#fbbf24',
+    border: '2px solid #fbbf24',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)',
+    fontWeight: '700',
+    letterSpacing: '0.01em',
+  },
+  saatCr: {
+    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%)',
+    color: '#d4af37',
+    border: '1px solid #7c3aed',
+    borderRadius: '10px',
+    boxShadow: '0 0 0 1px #7c3aed, 0 16px 32px -10px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(212, 175, 55, 0.1)',
+    fontWeight: '800',
+    letterSpacing: '0.04em',
+  },
+  sharingan: {
+    background: 'radial-gradient(circle at 30% 30%, #7f1d1d 0%, #0a0a0a 70%)',
+    color: '#fee2e2',
+    border: '1px solid #991b1b',
+    borderRadius: '999px 12px 999px 12px',
+    boxShadow: '0 0 28px rgba(220,38,38,0.55), 0 16px 32px -10px rgba(0,0,0,0.85)',
+    fontWeight: '700',
+  },
+  smjRheHo: {
+    background: 'linear-gradient(135deg, #afafaf 0%, #4d4d4d 50%, #fafafa 100%)',
+    color: '#000000',
+    border: '1px solid #262626',
+    borderRadius: '12px',
+    boxShadow: '0 12px 28px -8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
+    fontWeight: '600',
+  },
+} as const;
+
+// Render a meme style object into the textarea code preview. Decorative only:
+// the runtime style is read from `properties.style`, not parsed from the text.
+const memeStyleCode = (s: Record<string, string>) =>
+  `style: {\n    ${Object.entries(s).map(([k, v]) => `${k}: '${v}'`).join(',\n    ')},\n  }`;
+
+const memeEx = (path: string, message: string, style: Record<string, string>) =>
+  `import { toast } from 'robot-toast';\n\ntoast({\n  message: '${message}',\n  robotVariant: '${path}',\n  ${memeStyleCode(style)},\n})`;
 
 // Features data for the Features page
 export const FEATURES = [
@@ -758,5 +872,141 @@ export const FEATURES = [
     description: 'New-feature announcement — neutral border',
     codeExample: sonnerEx(`{\n  message: '✨  New feature available',\n  hideProgressBar: true,\n  ${sonnerCode('1px solid #262626')},\n}`),
     properties: { message: '✨  New feature available', hideProgressBar: true, style: SONNER_STYLE.default },
+  },
+
+  // ─── Memes (11) ──────────────────────────────────────────────────────────
+  // Each meme uses an image from /public/dxd as the robotVariant and a bespoke
+  // style (text color, background, shadow) that matches the meme's vibe.
+  {
+    id: 'Jal Lijiye',
+    name: 'Jal Lijiye',
+    category: 'memes',
+    description: 'A wild screenshot appears — terminal-blue, mono font',
+    codeExample: memeEx('/dxd/jl-lijiye.png', 'Jal lijiye... thak gaye honge', MEME_STYLES.jlLijiye),
+    properties: {
+      message: 'Jal lijiye... thak gaye honge',
+      robotVariant: '/dxd/jl-lijiye.png',
+      style: MEME_STYLES.jlLijiye,
+    },
+  },
+  {
+    id: 'meme-billy',
+    name: 'Billy',
+    category: 'memes',
+    description: 'Hardboiled gold-on-black with warm amber shadow',
+    codeExample: memeEx('/dxd/billy2.png', `Dont you worry a bit, Daddy is Home`, MEME_STYLES.billy),
+    properties: {
+      message: `Dont you worry a bit, Daddy is Home`,
+      robotVariant: '/dxd/billy2.png',
+      style: MEME_STYLES.billy,
+    },
+  },
+  {
+    id: 'meme-bird',
+    name: 'Birb',
+    category: 'memes',
+    description: 'Sky-gradient with a soft cloud halo and rounded top',
+    codeExample: memeEx('/dxd/bird.svg', 'Chitti aayi Hai', MEME_STYLES.bird),
+    properties: {
+      message: 'Chitti aayi Hai',
+      robotVariant: '/dxd/bird.svg',
+      style: MEME_STYLES.bird,
+    },
+  },
+  {
+    id: 'meme-deadpool',
+    name: 'Deadpool',
+    category: 'memes',
+    description: 'Maximum effort — red glow on black, double-stroked border',
+    codeExample: memeEx('/dxd/deadpool.gif', 'I have 207 all the time', MEME_STYLES.deadpool),
+    properties: {
+      message: 'I have 207 all the time',
+      robotVariant: '/dxd/deadpool.gif',
+      style: MEME_STYLES.deadpool,
+    },
+  },
+  {
+    id: 'meme-hypocrisy',
+    name: 'The Hypocrisy',
+    category: 'memes',
+    description: 'Dark gold on espresso brown with an italic accusation',
+    codeExample: memeEx('/dxd/hypocrisy.gif', 'Hypocrisy ki bhi seema hoti hai', MEME_STYLES.hypocrisy),
+    properties: {
+      message: 'Hypocrisy ki bhi seema hoti hai',
+      robotVariant: '/dxd/hypocrisy.gif',
+      style: MEME_STYLES.hypocrisy,
+    },
+  },
+  {
+    id: 'meme-jinwoo',
+    name: 'Sung Jin-Woo',
+    category: 'memes',
+    description: 'Shadow-monarch deep purple with a violet glow',
+    codeExample: memeEx('/dxd/jinwoo.png', 'Now, On to the NEXT ONE', MEME_STYLES.jinwoo),
+    properties: {
+      message: 'Now, On to the NEXT ONE',
+      robotVariant: '/dxd/jinwoo.png',
+      style: MEME_STYLES.jinwoo,
+    },
+  },
+  {
+    id: 'meme-kya-kr-rha',
+    name: 'Kya Kr Rha H Yr Tu',
+    category: 'memes',
+    description: 'Hard-shadow comic-book orange — bro, what are you doing',
+    codeExample: memeEx('/dxd/kya-kr-rha-h-yr-tu.png', 'Bhai kya kar raha hai tu?', MEME_STYLES.kyaKrRha),
+    properties: {
+      message: 'Bhai kya kar raha hai tu?',
+      robotVariant: '/dxd/kya-kr-rha-h-yr-tu.png',
+      style: MEME_STYLES.kyaKrRha,
+    },
+  },
+  {
+    id: 'meme-pikachu',
+    name: 'Pikachu',
+    category: 'memes',
+    description: 'Round yellow pill with red lightning shadow',
+    codeExample: memeEx('/dxd/pickachu.svg', 'Pika pika', MEME_STYLES.pikachu),
+    properties: {
+      message: 'Pika pika',
+      robotVariant: '/dxd/pickachu.svg',
+      style: MEME_STYLES.pikachu,
+    },
+  },
+  {
+    id: 'meme-saat-cr',
+    name: 'Saat Crore',
+    category: 'memes',
+    description: 'Solid-gold bar with a cream halo and inset bottom highlight',
+    codeExample: memeEx('/dxd/saat-cr.gif', '₹7 crore', MEME_STYLES.saatCr),
+    properties: {
+      message: '₹7 crore',
+      robotVariant: '/dxd/saat-cr.gif',
+      style: MEME_STYLES.saatCr,
+    },
+  },
+  {
+    id: 'meme-sharingan',
+    name: 'Sharingan',
+    category: 'memes',
+    description: 'Crimson radial iris on black with a red glow',
+    codeExample: memeEx('/dxd/sharingan.png', 'You are already under my GENJUTSU', MEME_STYLES.sharingan),
+    properties: {
+      message: 'You are already under my GENJUTSU',
+      robotVariant: '/dxd/sharingan.png',
+      style: MEME_STYLES.sharingan,
+    },
+  },
+  {
+    id: 'meme-smj-rhe-ho',
+    name: 'Smj Rhe Ho',
+    category: 'memes',
+    description: 'Calm teal explainer — you understanding?',
+    codeExample: memeEx('/dxd/smj-rhe-ho.gif', 'Samajh rahe ho? Haan? Samajh rahe ho?', MEME_STYLES.smjRheHo),
+    properties: {
+      message: 'Samajh rahe ho? Haan? Samajh rahe ho?',
+      robotVariant: '/dxd/smj-rhe-ho.gif',
+      style: MEME_STYLES.smjRheHo,
+    },
   },
 ] as const;
