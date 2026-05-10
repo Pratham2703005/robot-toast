@@ -1,174 +1,263 @@
 import CopyButton from "./components/CopyButton";
+import TryToastButton from "./components/TryToastButton";
+import { wave as base } from "./assets/wave";
+import { success } from "./assets/success";
 
-export default function Home() {
-  const code1 = `import { toast } from 'robot-toast';
+const PACKAGE = "robot-toast";
+const FALLBACK = { version: "2.1.9", size: "10 KB", downloads: "—" };
 
-// Show a simple toast
-toast('Hello world! 🤖');`;
-
-  const code2 = `import { wave } from 'robot-toast/robots';
-
-toast({
-  message: 'Success! Your file was saved.',
-  type: 'success',
-  robotVariant: wave
-});`;
-
-  const code3 = `// Customize everything
-toast({
-  message: 'Update available',
-  type: 'info',
-  position: 'top-right',
-  autoClose: 4000
-});`;
-
-  return (
-    <div className="px-4 sm:px-6 md:px-8 py-8 sm:py-12 max-w-4xl mx-auto">
-      {/* Hero Section */}
-      <div className="mb-10 sm:mb-16">
-        <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">🤖</div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-          Robot Toast
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 max-w-2xl">
-          A delightful, interactive toast notification library with adorable robot characters.
-          Perfect for adding personality to your notifications while maintaining a professional look.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <a
-            href="/installation"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all text-center"
-          >
-            Get Started →
-          </a>
-          <a
-            href="/playground"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors text-center"
-          >
-            Try Playground
-          </a>
-        </div>
-      </div>
-
-      {/* Features Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-10 sm:mb-16">
-        <FeatureCard
-          icon="🤖"
-          title="15+ Robot Characters"
-          description="Unique animated robots including wave, angry, shock, loading, and more."
-        />
-        <FeatureCard
-          icon="🎨"
-          title="Fully Customizable"
-          description="Control position, theme, type, animations, and all visual aspects."
-        />
-        <FeatureCard
-          icon="📦"
-          title="TypeScript Support"
-          description="Full type definitions for complete IDE support and type safety."
-        />
-        <FeatureCard
-          icon="🌙"
-          title="Light & Dark Mode"
-          description="Beautiful themes with seamless light/dark mode support."
-        />
-        <FeatureCard
-          icon="⚡"
-          title="Zero Dependencies"
-          description="Lightweight and standalone library with no external dependencies."
-        />
-        <FeatureCard
-          icon="📱"
-          title="Mobile Responsive"
-          description="Touch-friendly interactions and optimized for all device sizes."
-        />
-        <FeatureCard
-          icon="🎯"
-          title="8 Toast Positions"
-          description="Display toasts anywhere - top/bottom, left/right, or center."
-        />
-        <FeatureCard
-          icon="🔄"
-          title="Queue Management"
-          description="Smart queuing with adjustable limits to prevent notification overflow."
-        />
-        <FeatureCard
-          icon="✋"
-          title="Interactive Features"
-          description="Pause on hover, keyboard support, and draggable notifications."
-        />
-        <FeatureCard
-          icon="🚀"
-          title="Type Animations"
-          description="Text can animate character-by-character for engaging messages."
-        />
-      </div>
-
-      {/* Features Showcase Link */}
-      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-10 sm:mb-16 text-center">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-          Explore All Features
-        </h2>
-        <p className="text-gray-700 dark:text-gray-300 mb-6">
-          Check out interactive demos of all 40+ features including robots, positions, themes, animations, and more.
-        </p>
-        <a
-          href="/features"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all"
-        >
-          View Features Showcase →
-        </a>
-      </div>
-
-      {/* Quick Example */}
-      <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 rounded-lg p-4 sm:p-6 overflow-x-auto mb-10 sm:mb-16">
-        <h3 className="text-lg font-bold mb-4">Quick Start Example</h3>
-        <pre className="font-mono text-sm px-2 py-1 flex justify-between items-center rounded hover:bg-gray-800">
-          {code1}
-          <CopyButton text={code1} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
-        </pre>
-        <pre className="font-mono text-sm px-2 py-2 my-1 flex justify-between items-start rounded hover:bg-gray-800">
-          {code2}
-          <CopyButton text={code2} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
-        </pre>
-        <pre className="font-mono text-sm px-2 py-2 flex justify-between items-start rounded hover:bg-gray-800">
-          {code3}
-          <CopyButton text={code3} styling="bg-gray-900 text-xs py-0.5 px-1 rounded" />
-        </pre>
-      </div>
-
-      {/* Call to Action */}
-      <div className="text-center py-8">
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Ready to add adorable robots to your notifications?
-        </p>
-        <a
-          href="/installation"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium hover:shadow-lg transition-all"
-        >
-          Install Now
-        </a>
-      </div>
-    </div>
-  );
+function formatBytes(bytes: number): string {
+  if (!bytes || !Number.isFinite(bytes)) return FALLBACK.size;
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: string;
-  title: string;
-  description: string;
-}) {
+function formatNumber(n: number): string {
+  if (!n || !Number.isFinite(n)) return FALLBACK.downloads;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(3)}m`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(3)}k`;
+  return String(n);
+}
+
+async function getNpmStats() {
+  // Revalidate every 6h — npm stats don't move that fast and we don't want
+  // to hammer bundlephobia from the SSR path.
+  const opts = { next: { revalidate: 21600 } } as const;
+
+  const today = new Date();
+  const past = new Date(today);
+  past.setMonth(past.getMonth() - 18);
+  const range = `${past.toISOString().slice(0, 10)}:${today.toISOString().slice(0, 10)}`;
+
+  const [pkgRes, sizeRes, dlRes] = await Promise.allSettled([
+    fetch(`https://registry.npmjs.org/${PACKAGE}/latest`, opts).then((r) =>
+      r.ok ? r.json() : Promise.reject(r.statusText)
+    ),
+    fetch(`https://bundlephobia.com/api/size?package=${PACKAGE}`, opts).then((r) =>
+      r.ok ? r.json() : Promise.reject(r.statusText)
+    ),
+    fetch(`https://api.npmjs.org/downloads/range/${range}/${PACKAGE}`, opts).then((r) =>
+      r.ok ? r.json() : Promise.reject(r.statusText)
+    ),
+  ]);
+
+  const version =
+    pkgRes.status === "fulfilled" && typeof pkgRes.value.version === "string"
+      ? pkgRes.value.version
+      : FALLBACK.version;
+
+  const size =
+    sizeRes.status === "fulfilled" && typeof sizeRes.value.gzip === "number"
+      ? formatBytes(sizeRes.value.gzip)
+      : FALLBACK.size;
+
+  let downloads = FALLBACK.downloads;
+  if (dlRes.status === "fulfilled" && Array.isArray(dlRes.value.downloads)) {
+    const total = dlRes.value.downloads.reduce(
+      (sum: number, d: { downloads: number }) => sum + (d?.downloads ?? 0),
+      0
+    );
+    downloads = formatNumber(total);
+  }
+
+  return { version, size, downloads };
+}
+
+export default async function Home() {
+  const npm = await getNpmStats();
+
+  const features = [
+    {
+      num: "01",
+      title: "Tree-shakeable robots",
+      desc: "Import only the variants you use. Each robot is a data URL, so unused characters never reach the bundle.",
+    },
+    {
+      num: "02",
+      title: "React hook included",
+      desc: "useRobotToast() and useToastOnMount() ship in a dedicated subpath. React stays an optional peer dependency.",
+    },
+    {
+      num: "03",
+      title: "Promise lifecycle",
+      desc: "toast.promise() handles loading, success, and error states in a single call — including dynamic messages from the resolved value.",
+    },
+    {
+      num: "04",
+      title: "Tuned for mobile",
+      desc: "Swipe-to-dismiss, touch-action, cached rects. Behaves the way you expect on real hardware, not just on a desktop browser.",
+    },
+    {
+      num: "05",
+      title: "Accessible by default",
+      desc: 'role="alert" for errors and warnings, role="status" otherwise. Keyboard pause, focus restore, ARIA-correct out of the box.',
+    },
+    {
+      num: "06",
+      title: "Fully themeable",
+      desc: "Light, dark, and colored presets — or pass your own style object and own the look entirely.",
+    },
+  ];
+
+  const stats = [
+    { value: npm.size, label: "core, gzipped" },
+    { value: "16", label: "built-in robots" },
+    { value: "06", label: "positions" },
+    { value: npm.downloads, label: "total downloads" },
+  ];
+
+  const steps = [
+    {
+      title: "Install",
+      tagline: "Tree-shakeable, mobile-tuned, with character.",
+      code: "npm install robot-toast",
+    },
+    {
+      title: "Import a toast",
+      tagline: "Add toast in your app",
+      code: "import { toast } from 'robot-toast'",
+    },
+    {
+      title: "Toast it",
+      tagline: "Call from anywhere",
+      code: "toast({ message: 'Saved!' })",
+    },
+  ];
+
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-800 p-4 sm:p-6 hover:shadow-lg transition-shadow">
-      <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">{icon}</div>
-      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
-        {title}
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400">{description}</p>
+    <div className="px-4 sm:px-6 md:px-10 py-10 sm:py-16 lg:py-20 max-w-5xl mx-auto">
+      {/* Hero */}
+      <header className="relative -mt-10 sm:-mt-16 lg:-mt-20 mb-12 sm:mb-20 lg:mb-24 min-h-svh flex items-center gap-6 overflow-hidden lg:mr-[calc((100%+16rem-100dvw)/2)]">
+        {/* Text */}
+        <div className="min-w-0 max-w-2xl relative z-10">
+          <div className="inline-flex items-center gap-3 mb-5 sm:mb-8 text-[11px] font-mono uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+            <span className="h-px w-6 bg-gray-300 dark:bg-gray-700" />
+            v{npm.version} · MIT
+          </div>
+
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-[-0.03em] leading-[1.05] sm:leading-[1.02] text-gray-900 dark:text-white mb-5 sm:mb-6">
+            Notifications,
+            <br className="hidden sm:block" /> with character.
+          </h1>
+
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-xl mb-8 sm:mb-10 leading-relaxed">
+            A toast library that pairs functional notifications with
+            characterful robots. Tree-shakeable, mobile-tuned.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <TryToastButton />
+            <a
+              href="/playground"
+              className="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-md border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm font-medium hover:border-gray-900 dark:hover:border-gray-300 transition-colors"
+            >
+              Try in playground
+            </a>
+          </div>
+        </div>
+
+        {/* Decorative robot */}
+        <div className="hidden lg:flex justify-end items-center grow shrink-0">
+          <img
+            src={base}
+            alt=""
+            aria-hidden
+            className="pointer-events-none select-none w-[90vh] h-auto max-w-none opacity-70 translate-x-12 lg:-translate-x-20"
+          />
+        </div>
+      </header>
+
+            {/* Quick start — 3 steps */}
+      <section className="mb-12 sm:mb-20 lg:mb-24">
+        <div className="mb-8 sm:mb-10 flex items-baseline justify-between gap-4 flex-wrap">
+          <div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              Three steps are all it takes.
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400">
+              Install, import, toast.
+            </p>
+          </div>
+          <a
+            href="/installation"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors whitespace-nowrap"
+          >
+            Full guide →
+          </a>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-3 sm:gap-4">
+          {steps.map((s, i) => (
+            <div key={s.title} className="min-w-0">
+              <div className="w-full flex items-center justify-center">
+                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold mb-4">
+                  {i + 1}
+                </div>
+              </div>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 text-center">
+                {s.title}
+              </h3>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mb-4 text-center">
+                {s.tagline}
+              </p>
+              <div className="flex items-center justify-between gap-2 rounded-md border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 px-3 py-2.5 overflow-hidden">
+                <code className="font-mono text-xs sm:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-x-auto min-w-0 flex-1 text-center">
+                  {s.code}
+                </code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="mb-12 sm:mb-20 lg:mb-24 grid grid-cols-2 sm:grid-cols-4 gap-y-6 sm:gap-y-8 gap-x-4 sm:gap-x-6 border-y border-gray-200 dark:border-gray-800 py-6 sm:py-10">
+        {stats.map((s) => (
+          <div key={s.label}>
+            <div className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">
+              {s.value}
+            </div>
+            <div className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center">
+              {s.label}
+            </div>
+          </div>
+        ))}
+      </section>
+ <div className="flex justify-end">
+          <img
+            src={success}
+            alt=""
+            aria-hidden
+            className="pointer-events-none select-none w-40 sm:w-56 md:w-64 lg:w-72 h-auto opacity-70"
+          />
+        </div>
+      {/* Features */}
+      <section className="mb-12 sm:mb-20 lg:mb-24">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-6 sm:mb-10">
+          Built for production.
+        </h2>
+        <ul className="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
+          {features.map((f) => (
+            <li
+              key={f.num}
+              className="grid grid-cols-[auto_1fr] gap-x-4 sm:gap-x-12 py-5 sm:py-8"
+            >
+              <span className="font-mono text-xs text-gray-400 dark:text-gray-500 mt-1.5">
+                {f.num}
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
+                  {f.title}
+                </h3>
+                <p className="mt-1.5 sm:mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+                  {f.desc}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

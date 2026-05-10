@@ -58,23 +58,26 @@ export default function FeaturesPage() {
     <div className="min-h-screen bg-white dark:bg-black">
       <main>
         {/* Hero */}
-        <div className="relative overflow-hidden bg-linear-to-br from-purple-600 via-pink-500 to-orange-400">
-          <div className="absolute inset-0 bg-black/10" aria-hidden />
-          <div className="relative max-w-5xl mx-auto px-4 py-14 sm:py-20">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Feature Showcase
+        <div className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
+          <div className="max-w-5xl mx-auto px-4 py-14 sm:py-20">
+            <div className="inline-flex items-center gap-3 mb-6 text-[11px] font-mono uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+              <span className="h-px w-6 bg-gray-300 dark:bg-gray-700" />
+              Showcase
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-[-0.02em] text-gray-900 dark:text-white">
+              Every option, demoed.
             </h1>
-            <p className="mt-3 text-lg sm:text-xl text-white/90 max-w-2xl">
-              Every robot-toast option with live, editable demos. Hit run and watch the toast come to life.
+            <p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
+              Live, editable examples for every robot-toast option. Hit run and watch the toast come to life.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-white/90">
-              <span className="px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm font-medium">
+            <div className="mt-8 flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+              <span className="px-3 py-1 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium">
                 {FEATURES.length} features
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm font-medium">
+              <span className="px-3 py-1 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium">
                 {categoryCount} categories
               </span>
-              <span className="px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm font-medium">
+              <span className="px-3 py-1 rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium">
                 Fully stylable
               </span>
             </div>
@@ -86,17 +89,17 @@ export default function FeaturesPage() {
           {Object.entries(grouped).map(([category, features]) => {
             const theme = CATEGORY_THEME[category];
             const label = theme?.label ?? category;
-            const bg = theme?.bg ?? 'linear-gradient(135deg, #9ca3af 0%, #4b5563 100%)';
+            const bg = theme?.bg ?? '#4b5563';
             const accent = theme?.accent ?? '#6b7280';
             return (
               <section key={category} aria-labelledby={`cat-${category}`}>
                 <div
                   id={`cat-${category}`}
-                  className="rounded-xl px-5 py-4 flex items-center justify-between text-white shadow-md"
+                  className="rounded-xl px-5 py-4 flex items-center justify-between text-white"
                   style={{ background: bg }}
                 >
                   <h2 className="text-lg sm:text-xl font-bold tracking-tight">{label}</h2>
-                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-white/25 backdrop-blur-sm">
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-white/20">
                     {features.length} {features.length === 1 ? 'feature' : 'features'}
                   </span>
                 </div>

@@ -120,7 +120,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
 
         <div className="px-6">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            🤖 Robot Toast
+            Robot Toast
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             A delightful toast notification library
@@ -137,7 +137,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
                 onClick={onClose}
                 className={`block rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-linear-to-r from-purple-500/10 to-pink-500/10 text-purple-700 dark:text-purple-300'
+                    ? 'bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white'
                     : 'text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800'
                 }`}
               >
@@ -152,7 +152,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
               onClick={() => setIsFeaturesOpen(!isFeaturesOpen)}
               className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                 pathname === '/features'
-                  ? 'bg-linear-to-r from-purple-500/10 to-pink-500/10 text-purple-700 dark:text-purple-300'
+                  ? 'bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white'
                   : 'text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800'
               }`}
             >

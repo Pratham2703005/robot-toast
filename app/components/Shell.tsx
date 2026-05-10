@@ -36,7 +36,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       <div className="flex-1 lg:ml-64 w-full min-w-0">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-black/95 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+        <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-black/95 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 z-50">
           {/* Hamburger – mobile only */}
           <button
             type="button"
@@ -59,7 +59,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="min-h-screen bg-white dark:bg-black">
+        <main className="min-h-screen bg-white dark:bg-black overflow-hidden">
           {children}
         </main>
       </div>

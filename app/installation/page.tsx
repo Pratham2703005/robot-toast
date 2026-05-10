@@ -220,7 +220,6 @@ toast({
               key={v}
               className="rounded-lg border border-gray-200 dark:border-gray-800 p-3 font-mono text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-900 flex items-center gap-2"
             >
-              <span className="text-lg">🤖</span>
               {v}
             </div>
           ))}
@@ -228,7 +227,7 @@ toast({
       </div>
 
       {/* Complete Example */}
-      <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 rounded-lg p-5 sm:p-8 mb-8 sm:mb-12">
+      <div className="border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 rounded-lg p-5 sm:p-8 mb-8 sm:mb-12">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Complete Example</h2>
         <div className="bg-gray-900 dark:bg-gray-950 text-gray-50 flex flex-col gap-3 rounded-lg p-4 sm:p-6 overflow-x-auto mt-3 sm:mt-4">
           <pre className="font-mono text-xs sm:text-sm px-2 py-1 flex justify-between items-center rounded hover:bg-gray-800">

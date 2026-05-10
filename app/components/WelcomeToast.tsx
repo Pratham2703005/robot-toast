@@ -13,10 +13,11 @@ export function WelcomeToast() {
       toast({
         message: 'Welcome to Robot Toast!',
         type: 'info',
-        autoClose: 5000,
+        autoClose: 3000,
         robotVariant: wave,
         theme: 'dark',
-        position: 'top-center',
+        position: 'top-right',
+        hideProgressBar: true,
         style: TOAST_STYLE,
       });
       localStorage.setItem('hasVisitedRobotToast', 'true');

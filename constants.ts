@@ -48,17 +48,17 @@ export const TRANSITIONS: readonly TransitionType[] = [
 
 // Shared category palette — consumed by Sidebar, Features page, and per-feature toast styles
 export const CATEGORY_THEME: Record<string, { label: string; accent: string; bg: string; text: string }> = {
-  robot:       { label: '🤖 Robots',       accent: '#8b5cf6', bg: 'linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)', text: '#fff' },
-  position:    { label: '📍 Positions',    accent: '#06b6d4', bg: 'linear-gradient(135deg, #22d3ee 0%, #0891b2 100%)', text: '#fff' },
-  theme:       { label: '🎨 Themes',       accent: '#ec4899', bg: 'linear-gradient(135deg, #f472b6 0%, #db2777 100%)', text: '#fff' },
-  type:        { label: '🏷️ Types',        accent: '#10b981', bg: 'linear-gradient(135deg, #34d399 0%, #059669 100%)', text: '#fff' },
-  animation:   { label: '✨ Animations',   accent: '#f59e0b', bg: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)', text: '#fff' },
-  behavior:    { label: '⚙️ Behavior',     accent: '#3b82f6', bg: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)', text: '#fff' },
-  interaction: { label: '👆 Interactions', accent: '#ef4444', bg: 'linear-gradient(135deg, #f87171 0%, #dc2626 100%)', text: '#fff' },
-  async:       { label: '⏳ Async',        accent: '#6366f1', bg: 'linear-gradient(135deg, #818cf8 0%, #4f46e5 100%)', text: '#fff' },
-  styling:     { label: '🎭 Styling',      accent: '#14b8a6', bg: 'linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%)', text: '#fff' },
-  other:      { label: '🍞 other-style',  accent: '#0a0a0a', bg: 'linear-gradient(135deg, #27272a 0%, #0a0a0a 100%)', text: '#fff' },
-  memes:       { label: '😂 Memes',        accent: '#f43f5e', bg: 'linear-gradient(135deg, #fb7185 0%, #e11d48 100%)', text: '#fff' },
+  robot:       { label: 'Robots',       accent: '#8b5cf6', bg: '#7c3aed', text: '#fff' },
+  position:    { label: 'Positions',    accent: '#06b6d4', bg: '#0891b2', text: '#fff' },
+  theme:       { label: 'Themes',       accent: '#ec4899', bg: '#db2777', text: '#fff' },
+  type:        { label: 'Types',        accent: '#10b981', bg: '#059669', text: '#fff' },
+  animation:   { label: 'Animations',   accent: '#f59e0b', bg: '#d97706', text: '#fff' },
+  behavior:    { label: 'Behavior',     accent: '#3b82f6', bg: '#2563eb', text: '#fff' },
+  interaction: { label: 'Interactions', accent: '#ef4444', bg: '#dc2626', text: '#fff' },
+  async:       { label: 'Async',        accent: '#6366f1', bg: '#4f46e5', text: '#fff' },
+  styling:     { label: 'Styling',      accent: '#14b8a6', bg: '#0d9488', text: '#fff' },
+  other:      { label: 'other-style',  accent: '#fafafa', bg: '#18181b', text: '#fff' },
+  memes:       { label: 'Memes',        accent: '#f43f5e', bg: '#e11d48', text: '#fff' },
 };
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -196,7 +196,7 @@ const MEME_STYLES = {
     fontWeight: '500',
   },
   billy: {
-    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+    background: '#0a0a0a',
     color: '#2a818a',
     border: '2px solid #2a818a',
     borderRadius: '999px 12px 999px 12px',
@@ -205,7 +205,7 @@ const MEME_STYLES = {
     letterSpacing: '0.02em',
   },
   bird: {
-    background: 'linear-gradient(135deg, #7dd3fc 0%, #38bdf8 50%, #06b6d4 100%)',
+    background: '#0891b2',
     color: '#ffffff',
     border: '2px solid #0891b2',
     borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
@@ -213,7 +213,7 @@ const MEME_STYLES = {
     fontWeight: '600',
   },
   deadpool: {
-    background: 'linear-gradient(135deg, #7f1d1d 0%, #000000 100%)',
+    background: '#7f1d1d',
     color: '#fecaca',
     border: '1px solid #dc2626',
     borderRadius: '12px',
@@ -222,7 +222,7 @@ const MEME_STYLES = {
     letterSpacing: '0.02em',
   },
   hypocrisy: {
-    background: 'linear-gradient(135deg, #422006 0%, #78350f 100%)',
+    background: '#78350f',
     color: '#fde68a',
     border: '1px solid #d97706',
     borderRadius: '8px',
@@ -231,7 +231,7 @@ const MEME_STYLES = {
     fontWeight: '600',
   },
   jinwoo: {
-    background: 'linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #0a0a0a 100%)',
+    background: '#1e1b4b',
     color: '#c4b5fd',
     border: '1px solid #7c3aed',
     borderRadius: '14px',
@@ -240,7 +240,7 @@ const MEME_STYLES = {
     letterSpacing: '0.01em',
   },
   kyaKrRha: {
-    background: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)',
+    background: '#f97316',
     color: '#431407',
     border: '3px solid #1c0701',
     borderRadius: '6px',
@@ -249,7 +249,7 @@ const MEME_STYLES = {
     fontFamily: '"Comic Sans MS", "Comic Neue", cursive',
   },
   pikachu: {
-    background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 100%)',
+    background: '#000000',
     color: '#fbbf24',
     border: '2px solid #fbbf24',
     borderRadius: '8px',
@@ -258,7 +258,7 @@ const MEME_STYLES = {
     letterSpacing: '0.01em',
   },
   saatCr: {
-    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%)',
+    background: '#0a0a0a',
     color: '#d4af37',
     border: '1px solid #7c3aed',
     borderRadius: '10px',
@@ -267,7 +267,7 @@ const MEME_STYLES = {
     letterSpacing: '0.04em',
   },
   sharingan: {
-    background: 'radial-gradient(circle at 30% 30%, #7f1d1d 0%, #0a0a0a 70%)',
+    background: '#7f1d1d',
     color: '#fee2e2',
     border: '1px solid #991b1b',
     borderRadius: '999px 12px 999px 12px',
@@ -275,7 +275,7 @@ const MEME_STYLES = {
     fontWeight: '700',
   },
   smjRheHo: {
-    background: 'linear-gradient(135deg, #afafaf 0%, #4d4d4d 50%, #fafafa 100%)',
+    background: '#4d4d4d',
     color: '#000000',
     border: '1px solid #262626',
     borderRadius: '12px',
@@ -905,7 +905,7 @@ export const FEATURES = [
     id: 'meme-bird',
     name: 'Birb',
     category: 'memes',
-    description: 'Sky-gradient with a soft cloud halo and rounded top',
+    description: 'Cool cyan with a soft cloud halo and rounded top',
     codeExample: memeEx('/dxd/bird.svg', 'Chitti aayi Hai', MEME_STYLES.bird),
     properties: {
       message: 'Chitti aayi Hai',
@@ -923,18 +923,6 @@ export const FEATURES = [
       message: 'I have 207 all the time',
       robotVariant: '/dxd/deadpool.gif',
       style: MEME_STYLES.deadpool,
-    },
-  },
-  {
-    id: 'meme-hypocrisy',
-    name: 'The Hypocrisy',
-    category: 'memes',
-    description: 'Dark gold on espresso brown with an italic accusation',
-    codeExample: memeEx('/dxd/hypocrisy.gif', 'Hypocrisy ki bhi seema hoti hai', MEME_STYLES.hypocrisy),
-    properties: {
-      message: 'Hypocrisy ki bhi seema hoti hai',
-      robotVariant: '/dxd/hypocrisy.gif',
-      style: MEME_STYLES.hypocrisy,
     },
   },
   {

@@ -13,7 +13,7 @@ interface FeatureSectionProps {
 export function FeatureSection({ feature, accent }: FeatureSectionProps) {
   const [code, setCode] = useState<string>(feature.codeExample);
   const theme = CATEGORY_THEME[feature.category];
-  const chipBg = theme?.bg ?? 'linear-gradient(135deg, #9ca3af 0%, #4b5563 100%)';
+  const chipBg = theme?.bg ?? '#4b5563';
   const chipText = theme?.text ?? '#fff';
   const edge = accent ?? theme?.accent ?? '#8b5cf6';
 
@@ -182,7 +182,7 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
         <div className="mb-3 flex items-center gap-2">
           <button
             onClick={handleTrigger}
-            className="inline-flex items-center gap-2 h-9 px-4 rounded-lg text-sm font-semibold text-white bg-linear-to-r from-purple-600 to-pink-600 shadow-sm hover:shadow-md active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-2 h-9 px-4 rounded-lg text-sm font-semibold text-white dark:text-gray-900 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 active:scale-[0.98] transition-all"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path d="M8 5v14l11-7z" />
