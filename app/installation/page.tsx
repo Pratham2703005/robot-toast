@@ -52,7 +52,7 @@ function SaveButton() {
 
       <p className="text-gray-600 dark:text-gray-400 mb-8 text-sm sm:text-base">
         v2 is tree-shakeable by design, ships a React hook, and adds{' '}
-        <code className="font-mono text-xs">toast.promise()</code>, swipe-to-dismiss,
+        <code className="font-mono text-xs">toast.promise()</code>, typing effect,
         and ARIA roles. See the <a className="underline" href="https://github.com/Pratham2703005/robot-toast-package/blob/main/MIGRATION.md">migration guide</a> if you're coming from v1.
       </p>
 
@@ -126,7 +126,7 @@ function SaveButton() {
         <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
           <li>• <b>Bundle dropped 36%.</b> Core: 61 KB → 39 KB. Robots are lazy-imported.</li>
           <li>• <b>Opt-in robots.</b> Omitting <code>robotVariant</code> shows no robot now. Use <code>&quot;default&quot;</code> or import from <code>robot-toast/robots</code>.</li>
-          <li>• <b>Mobile drag fixed.</b> <code>touch-action: none</code>, cached rects, swipe-to-dismiss.</li>
+          <li>• <b>Mobile drag fixed.</b> <code>touch-action: none</code>, cached rects.</li>
           <li>• <b>ARIA roles.</b> <code>role=&quot;alert&quot;</code> for errors/warnings; <code>role=&quot;status&quot;</code> otherwise.</li>
           <li>• <b>React subpath.</b> <code>useRobotToast()</code> + <code>useToastOnMount()</code>.</li>
           <li>• <b><code>toast.promise()</code></b> with callbacks for dynamic messages.</li>

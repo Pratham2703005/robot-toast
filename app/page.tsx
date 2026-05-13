@@ -85,16 +85,11 @@ export default async function Home() {
     },
     {
       num: "04",
-      title: "Tuned for mobile",
-      desc: "Swipe-to-dismiss, touch-action, cached rects. Behaves the way you expect on real hardware, not just on a desktop browser.",
-    },
-    {
-      num: "05",
       title: "Accessible by default",
       desc: 'role="alert" for errors and warnings, role="status" otherwise. Keyboard pause, focus restore, ARIA-correct out of the box.',
     },
     {
-      num: "06",
+      num: "05",
       title: "Fully themeable",
       desc: "Light, dark, and colored presets — or pass your own style object and own the look entirely.",
     },
