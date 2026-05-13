@@ -8,7 +8,7 @@ This creates your own copy of the repo.
 ### 2️⃣ Clone Your Fork Locally
 
 ```bash
-git clone https://github.com/Pratham2703005/robot-toast.git
+git clone https://github.com/<your-username>/robot-toast.git
 ```
 3️⃣ Create a New Branch
 
