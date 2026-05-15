@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Sidebar } from './Sidebar';
-import { ThemeToggle } from './ThemeToggle';
+import { AnimatedThemeToggler } from './AnimatedThemeToggler';
 import { VersionSelect } from './VersionSelect';
 import { WelcomeToast } from './WelcomeToast';
 
@@ -36,7 +36,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       <div className="flex-1 lg:ml-64 w-full min-w-0">
         {/* Header */}
-        <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-black/95 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 z-50">
+        <header className="sticky top-0 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-black/95 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 z-50">
           {/* Hamburger – mobile only */}
           <button
             type="button"
@@ -55,7 +55,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-2 shrink-0">
             <VersionSelect />
-            <ThemeToggle />
+            <AnimatedThemeToggler
+              className="inline-flex items-center justify-center rounded-md border border-gray-200 bg-white p-2 text-sm text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 transition-colors"
+              variant="hexagon" duration={600} 
+            />
           </div>
         </header>
 

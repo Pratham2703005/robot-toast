@@ -98,3 +98,17 @@ html, body {
   }
 }
 
+/* MagicUI AnimatedThemeToggler — view-transition clip-path animation.
+   Scoped via data-magicui-theme-vt so the rule only applies while a theme
+   toggle is in flight; other view transitions (e.g. Next.js navigation) are
+   untouched. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-magicui-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration);
+}
+

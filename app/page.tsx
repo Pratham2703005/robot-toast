@@ -224,7 +224,7 @@ export default async function Home() {
             src={success}
             alt=""
             aria-hidden
-            className="pointer-events-none select-none w-40 sm:w-56 md:w-64 lg:w-72 h-auto opacity-70"
+            className="pointer-events-none select-none w-40 sm:w-56 md:w-64 lg:w-72 h-auto opacity-100 dark:opacity-70"
           />
         </div>
       {/* Features */}

@@ -53,7 +53,7 @@ function SaveButton() {
       <p className="text-gray-600 dark:text-gray-400 mb-8 text-sm sm:text-base">
         v2 is tree-shakeable by design, ships a React hook, and adds{' '}
         <code className="font-mono text-xs">toast.promise()</code>, typing effect,
-        and ARIA roles. See the <a className="underline" href="https://github.com/Pratham2703005/robot-toast-package/blob/main/MIGRATION.md">migration guide</a> if you're coming from v1.
+        and ARIA roles.
       </p>
 
       {/* Install */}
