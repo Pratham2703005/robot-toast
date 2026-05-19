@@ -34,18 +34,15 @@ function parseCustomStyle(cssText: string): Record<string, string> | undefined {
   return Object.keys(styles).length > 0 ? styles : undefined;
 }
 
-// Default customStyle mirrors the unified TOAST_STYLE constant so the
-// playground demo matches the rest of the site out-of-the-box.
-const DEFAULT_CUSTOM_STYLE =
-  "background: #0a0a0a; color: #fafafa; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; box-shadow: 0 16px 32px -12px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.3); font-size: 14px; font-weight: 500; letter-spacing: -0.01em;";
-
 const INITIAL: PlaygroundState = {
   message:         'Welcome to robot-toast!',
   position:        'bottom-right',
   type:            'default',
   theme:           'light',
   robotVariant:    'wave',
-  customStyle:     DEFAULT_CUSTOM_STYLE,
+  // Start with no custom styles — the playground uses the library's
+  // default toast look unless the user opts into a custom style.
+  customStyle:     '',
   autoClose:       '5000',
   typeSpeed:       '30',
   limit:           '0',
