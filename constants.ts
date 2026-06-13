@@ -702,6 +702,22 @@ export const FEATURES = [
     codeExample: ex('validation2', `{\n  message: 'Styled toast',\n  robotVariant: validation2,\n  ${STYLE_CODE},\n}`),
     properties: { message: 'Styled toast', robotVariant: 'validation2', style: TOAST_STYLE },
   },
+  {
+    id: 'feature-tailwind-classname',
+    name: 'Tailwind className',
+    category: 'styling',
+    description: 'Use Tailwind utility classes via the className prop for rapid styling',
+    codeExample: ex('success', `import toast from 'robot-toast';\\n\\ntoast('Styled with Tailwind!', {\\n  className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg border-0',\\n  robotVariant: success,\\n});`),
+    properties: { message: 'Styled with Tailwind!', robotVariant: 'success', className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg border-0' },
+  },
+  {
+    id: 'feature-tailwind-variants',
+    name: 'Tailwind Variants',
+    category: 'styling',
+    description: 'Combine multiple Tailwind utilities for different looks',
+    codeExample: ex('base', `import toast from 'robot-toast';\\n\\n// Glassmorphism\\ntoast('Frosted glass effect', {\\n  className: 'bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-2xl',\\n  robotVariant: base,\\n});\\n\\n// Neon glow\\ntoast('Neon glow toast', {\\n  className: 'bg-black text-cyan-400 border border-cyan-400/50 shadow-[0_0_15px_rgba(34,211,238,0.3)] rounded-lg',\\n  robotVariant: base,\\n});`),
+    properties: { message: 'Frosted glass effect', robotVariant: 'base', className: 'bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-2xl' },
+  },
 
   // ─── Button variations (6) ───────────────────────────────────────────────
   {
