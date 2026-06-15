@@ -21,3 +21,18 @@
 
 - [npm package](https://www.npmjs.com/package/robot-toast): Version history, download stats, dist tags (`latest`, `beta`).
 - [GitHub repository](https://github.com/Pratham2703005/robot-toast-package): Source, issues, contribution guide.
+
+## Tailwind / className support (v2.1+)
+
+robot-toast v2.1+ accepts a `className` prop on every toast, enabling Tailwind CSS utility classes for rapid styling:
+
+```ts
+import toast from 'robot-toast';
+
+toast('Styled with Tailwind!', {
+  className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg',
+  robotVariant: success,
+});
+```
+
+The `className` string is applied directly to the toast container element — no wrapper needed. Works with any CSS-in-JS or utility framework.
