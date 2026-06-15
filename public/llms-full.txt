@@ -56,6 +56,11 @@ toast({
 // Return value is a numeric id (useful for closeById)
 const id = toast('Working…');
 toast.closeById(id);
+// Tailwind / className — pass utility classes directly
+toast("Styled!", {
+  className: "bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg",
+  robotVariant: success,
+});
 toast.closeAll();
 
 // Typed shorthands — set `type` automatically
@@ -178,6 +183,7 @@ interface RobotToastOptions {
   position?:         'top-left'    | 'top-center'    | 'top-right'
                    | 'bottom-left' | 'bottom-center' | 'bottom-right';        // default: 'bottom-right'
   style?:            Record<string, string | number>;                         // inline CSS for the message bubble
+  className?:       string;                              // Tailwind / CSS class(es) for the toast container
 
   // Robot — see the Robot section above
   robotVariant?:     string;                       // default: omitted = no robot
