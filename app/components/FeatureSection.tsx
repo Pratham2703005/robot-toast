@@ -64,6 +64,9 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
       const positionMatch = objectStr.match(/position\s*:\s*['"`]?([^'"`},\s]+)/);
       if (positionMatch) options.position = positionMatch[1];
 
+      const classNameMatch = objectStr.match(/className\s*:\s*['"`]([^'"`]*)/);
+      if (classNameMatch) options.className = classNameMatch[1];
+
       const autoCloseMatch = objectStr.match(/autoClose\s*:\s*([^,}]+)/);
       if (autoCloseMatch) {
         const val = autoCloseMatch[1].trim();
@@ -120,22 +123,55 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
       // hideProgressBar, transition, typeSpeed, etc.) and `style` all apply. Then let
       // anything the user edited in the textarea override.
       const { robotVariant: _rv, ...propsRest } = properties;
-      toast({
+      const toastOptions: Record<string, any> = {
         ...propsRest,
         message: options.message || properties.message || feature.description,
         ...options,
         robotVariant: runtimeVariant,
-      });
+      };
+      const appliedClassName = toastOptions.className;
+      delete toastOptions.className;
+      toast(toastOptions);
+      if (appliedClassName) {
+        setTimeout(() => {
+          const wrappers = document.querySelectorAll('.robot-toast-wrapper');
+          const last = wrappers[wrappers.length - 1];
+          if (last) {
+            const msgBox = last.querySelector('.robot-toast-message');
+            if (msgBox) {
+              // Remove theme class so library background rule doesn't apply
+              msgBox.classList.remove('robot-toast-theme-light', 'robot-toast-theme-dark', 'robot-toast-theme-colored');
+              appliedClassName.split(' ').filter(Boolean).forEach((c: string) => msgBox.classList.add(c));
+            }
+          }
+        }, 50);
+      }
     } catch {
       const properties = feature.properties as Record<string, any>;
       const runtimeVariant = properties.robotVariant
         ? toRuntimeVariantV2(properties.robotVariant)
         : undefined;
-      toast({
+      const fallbackOpts: Record<string, any> = {
         message: properties.message || feature.description,
         ...properties,
         robotVariant: runtimeVariant,
-      });
+      };
+      const fallbackClassName = fallbackOpts.className;
+      delete fallbackOpts.className;
+      toast(fallbackOpts);
+      if (fallbackClassName) {
+        setTimeout(() => {
+          const wrappers = document.querySelectorAll('.robot-toast-wrapper');
+          const last = wrappers[wrappers.length - 1];
+          if (last) {
+            const msgBox = last.querySelector('.robot-toast-message');
+            if (msgBox) {
+              msgBox.classList.remove('robot-toast-theme-light', 'robot-toast-theme-dark', 'robot-toast-theme-colored');
+              fallbackClassName.split(' ').filter(Boolean).forEach((c: string) => msgBox.classList.add(c));
+            }
+          }
+        }, 50);
+      }
     }
   };
 
