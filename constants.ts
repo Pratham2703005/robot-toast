@@ -707,7 +707,7 @@ export const FEATURES = [
     name: 'Tailwind className',
     category: 'styling',
     description: 'Rapid styling with Tailwind utility classes — just pass a className and you\'re set',
-    codeExample: ex('success', `import toast from 'robot-toast';\n\ntoast('Styled with Tailwind!', {\n  className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg border-0',\n  robotVariant: success,\n});`),
+    codeExample: ex('success', `{\n  message: 'Styled with Tailwind!',\n  className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg border-0',\n  robotVariant: success,\n}`),
     properties: { message: 'Styled with Tailwind!', robotVariant: 'success', className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg border-0', style: { background: 'linear-gradient(to right, rgb(139, 92, 246), rgb(217, 70, 239))', color: '#fdf4ff' } },
   },
   // ─── Button variations (6) ───────────────────────────────────────────────
