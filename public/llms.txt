@@ -27,7 +27,8 @@
 robot-toast v2.1+ accepts a `className` prop on every toast, enabling Tailwind CSS utility classes for rapid styling:
 
 ```ts
-import toast from 'robot-toast';
+import { toast } from 'robot-toast';
+import { success } from 'robot-toast/robots';
 
 toast('Styled with Tailwind!', {
   className: 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg',

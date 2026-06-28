@@ -41,6 +41,7 @@ Each subpath has its own bundle; `robot-toast/robots` is tree-shakeable.
 
 ```ts
 import { toast } from 'robot-toast';
+import { success } from 'robot-toast/robots';
 
 // String form — just the message, all other options default
 toast('Hello');

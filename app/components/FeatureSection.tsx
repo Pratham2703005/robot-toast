@@ -129,23 +129,7 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
         ...options,
         robotVariant: runtimeVariant,
       };
-      const appliedClassName = toastOptions.className;
-      delete toastOptions.className;
       toast(toastOptions);
-      if (appliedClassName) {
-        setTimeout(() => {
-          const wrappers = document.querySelectorAll('.robot-toast-wrapper');
-          const last = wrappers[wrappers.length - 1];
-          if (last) {
-            const msgBox = last.querySelector('.robot-toast-message');
-            if (msgBox) {
-              // Remove theme class so library background rule doesn't apply
-              msgBox.classList.remove('robot-toast-theme-light', 'robot-toast-theme-dark', 'robot-toast-theme-colored');
-              appliedClassName.split(' ').filter(Boolean).forEach((c: string) => msgBox.classList.add(c));
-            }
-          }
-        }, 50);
-      }
     } catch {
       const properties = feature.properties as Record<string, any>;
       const runtimeVariant = properties.robotVariant
@@ -156,22 +140,7 @@ export function FeatureSection({ feature, accent }: FeatureSectionProps) {
         ...properties,
         robotVariant: runtimeVariant,
       };
-      const fallbackClassName = fallbackOpts.className;
-      delete fallbackOpts.className;
       toast(fallbackOpts);
-      if (fallbackClassName) {
-        setTimeout(() => {
-          const wrappers = document.querySelectorAll('.robot-toast-wrapper');
-          const last = wrappers[wrappers.length - 1];
-          if (last) {
-            const msgBox = last.querySelector('.robot-toast-message');
-            if (msgBox) {
-              msgBox.classList.remove('robot-toast-theme-light', 'robot-toast-theme-dark', 'robot-toast-theme-colored');
-              fallbackClassName.split(' ').filter(Boolean).forEach((c: string) => msgBox.classList.add(c));
-            }
-          }
-        }, 50);
-      }
     }
   };
 
