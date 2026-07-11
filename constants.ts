@@ -57,7 +57,7 @@ export const CATEGORY_THEME: Record<string, { label: string; accent: string; bg:
   interaction: { label: 'Interactions', accent: '#ef4444', bg: '#dc2626', text: '#fff' },
   async:       { label: 'Async',        accent: '#6366f1', bg: '#4f46e5', text: '#fff' },
   styling:     { label: 'Styling',      accent: '#14b8a6', bg: '#0d9488', text: '#fff' },
-  other:      { label: 'other-style',  accent: '#fafafa', bg: '#18181b', text: '#fff' },
+  other:      { label: 'Sonner-style',  accent: '#71717a', bg: '#18181b', text: '#fff' },
   memes:       { label: 'Memes',        accent: '#f43f5e', bg: '#e11d48', text: '#fff' },
 };
 
